@@ -11,6 +11,8 @@ time = "*"
 sys = "*"
 csv = "*"
 os = "*"
+python-serial = "*"
+pynmea2 = "*"
 
 [requires]
 python_version = "3.7"
