@@ -85,10 +85,6 @@ class MPU9250:
         else:
             raise Exception('Accelerometer scale modifier not found.')
 
-        # Reset all registers to default
-        # self.bus.write_byte_data(self.address_mpu_master, PWR_MGMT_1, 0x80)
-        # time.sleep(0.1)
-
         # sleep off
         self.bus.write_byte_data(self.address_mpu_master, PWR_MGMT_1, 0x00)
         time.sleep(0.1)
@@ -98,8 +94,8 @@ class MPU9250:
         time.sleep(0.1)
 
         # DLPF_CFG
-        # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
-        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x03)
+        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
+        # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x03)
 
         # sample rate divider
         self.bus.write_byte_data(self.address_mpu_master, SMPLRT_DIV, 0x04)
@@ -111,8 +107,8 @@ class MPU9250:
         self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG, afs << 3)
 
         # A_DLPFCFG
-        # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
-        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x03)
+        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
+        # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x03)
 
         if self.address_mpu_slave is None:
 
@@ -136,12 +132,6 @@ class MPU9250:
             
             # Address to write MPU Slave
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_ADDR, self.address_mpu_slave)
-
-            # # Reset all registers to default
-            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, PWR_MGMT_1)
-            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x80)
-            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
-            # time.sleep(0.1)
 
             # sleep off
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, PWR_MGMT_1)
@@ -195,8 +185,8 @@ class MPU9250:
             # Address to read from MPU Slave
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV0_ADDR, self.address_mpu_slave | 0x80) # 0xE8
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV0_REG, ACCEL_OUT)  
-            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV0_CTRL, 0x8E) # read 14 bytes       
-                       
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV0_CTRL, 0x8E) # read 14 bytes  Acc + Gyro + Temp     
+
     # Configure AK8963
     # @param [in] self - The object pointer.
     # @param [in] mfs - Magneto scale select.
@@ -296,6 +286,21 @@ class MPU9250:
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV1_REG, AK8963_MAGNET_OUT)  
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV1_CTRL, 0x87)  # read 7 bytes
         
+    # Reset sensors registers values.
+    def reset(self):
+
+        # Reset all registers to default
+        self.bus.write_byte_data(self.address_mpu_master, PWR_MGMT_1, 0x80)
+        time.sleep(0.1)
+
+        if not(self.address_mpu_slave is None):
+
+            # Reset all registers to default
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, PWR_MGMT_1)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x80)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
+            time.sleep(0.1)
+
     # Read accelerometer
     #  @param [in] self - The object pointer.
     #  @retval x - x-axis data
