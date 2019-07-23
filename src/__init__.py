@@ -45,6 +45,9 @@ def __init__():
             elif option == "5":
                 mainThread.showSamplingSettings()
 
+            elif option == "6":
+                mainThread.resetSensors()
+
             else:
                 print("Opção inválida.") 
 
