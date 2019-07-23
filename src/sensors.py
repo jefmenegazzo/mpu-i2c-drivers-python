@@ -8,12 +8,17 @@ class Sensors:
     mpu_0x69 = None
 
     def __init__(self):
-
         self.mpu_0x68 = MPU9250(AK8963_ADDRESS, MPU9050_ADDRESS_68, MPU9050_ADDRESS_68, 1)
         self.mpu_0x69 = MPU9250(AK8963_ADDRESS, MPU9050_ADDRESS_69, None, 1)
-
+        self.configure()
+        
+    def configure(self):
         self.mpu_0x68.configure(GFS_1000, AFS_8G, AK8963_BIT_16, AK8963_MODE_C8HZ)
         self.mpu_0x69.configure(GFS_1000, AFS_8G, AK8963_BIT_16, AK8963_MODE_C8HZ)
+
+    def reset(self):
+        self.mpu_0x68.reset()
+        self.mpu_0x69.reset()
 
     def getSensorAddress(self):
 
@@ -34,9 +39,9 @@ class Sensors:
 
     def getAllData(self):
 
-        sensorAddress = self.getSensorAddress()
         sensorTypes = self.SensorTypes()
-
+        sensorAddress = self.getSensorAddress()
+        
         return { 
             sensorTypes[0]: time.time(),
             sensorTypes[1]: {

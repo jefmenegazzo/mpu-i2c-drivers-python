@@ -1,58 +1,56 @@
-from sensors import Sensors
-import datetime, time, sys, os, csv
+from main_thread import MainThread
 
-## SETTINGS
-CONSOLE = True
-PRODUCTION = False
+def __init__():
 
-# DEFAULT
-SAMPLING_RATE = 0.01 if PRODUCTION else 0.5 # 100 Hz or 2 Hz
-FOLDER = "../../data"
-FILE = FOLDER + "/mpu-data-set " + datetime.datetime.fromtimestamp(time.time()).strftime('%d-%m-%Y %H-%M-%S') + ".csv"
+    mainThread = None
 
-def showSettings():
-    print("Sensor Data Collect")
-    print("Mode: " + ("production" if PRODUCTION else "development"))
-    print("Sampling Rate: " + str(SAMPLING_RATE))
-    print("Console Enabled: " + str(CONSOLE))
-    print("Data Folder: " + FOLDER)
-    print("File: " + FILE)
-    print("")
-
-def showInit():
-    print("\nInit")
-    showSettings()
-
-def showQuit():
-    print("\nQuit")
-    showSettings()
-
-try:
-
-    showInit()
-
-    if not os.path.exists(FOLDER):
-        os.makedirs(FOLDER)
-
-    sensors = Sensors()  
-
-    with open(FILE, "w+") as csvfile:
+    while True:
         
-        spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        print ("""
+        [1] Iniciar Sensores
+        [2] Iniciar Amostragem
+        [3] Finalizar Amostragem
+        [4] Visualizar Amostra Corrente
+        [5] Visualizar Configurações
+        [6] Resetar Configurações Sensores
+        [0] Sair
+        """)
 
-        row = sensors.getCSVLabel()
-        spamwriter.writerow(row)
+        option = input("Opção: ")
 
-        while True:
-            
-            row = sensors.getCSVData()
-            spamwriter.writerow(row)
+        if option == "0": 
+            break
+        
+        if option == "1": 
+            mainThread = MainThread()
+            mainThread.startSensors()
+            print("Sensores Iniciados")
 
-            if CONSOLE:
-                sensors.printData(row)
+        else:
 
-            time.sleep(SAMPLING_RATE)
+            if mainThread is None:
+                print("Sensores não iniciados.")
 
-except KeyboardInterrupt:
-    showQuit()
-    sys.exit()
+            elif option == "2":
+                mainThread.startSampling()
+                print("Amostragem iniciada.")
+
+            elif option == "3":
+                mainThread.stopSampling()
+                print("Amostragem finalizada.")
+
+            elif option == "4":
+                mainThread.showSamplingCurrent()
+
+            elif option == "5":
+                mainThread.showSamplingSettings()
+
+            else:
+                print("Opção inválida.") 
+
+if __name__ == "__main__":
+
+    try:
+        __init__()
+    except KeyboardInterrupt:
+        print("Exit")
