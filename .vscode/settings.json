@@ -1,10 +1,10 @@
 {
-    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": false,
     "files.exclude": {
         "**/.git": true,
         "**/__pycache__": true,
         ".gitignore": true,
         "Pipfile.lock": true,
     },
-    "python.pythonPath": "C:\\Users\\Jeferson Menegazzo\\.virtualenvs\\pishare-3RTcHqu2\\Scripts\\python.exe"
+    "python.analysis.disabled": ["unresolved-import", "undefined-variable"]
 }

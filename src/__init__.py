@@ -1,8 +1,8 @@
-from main_thread import MainThread
+from sensors import Sensors
 
 def __init__():
 
-    mainThread = None
+    sensors = None
 
     while True:
         
@@ -11,8 +11,7 @@ def __init__():
         [2] Iniciar Amostragem
         [3] Finalizar Amostragem
         [4] Visualizar Amostra Corrente
-        [5] Visualizar Configurações
-        [6] Resetar Configurações Sensores
+        [5] Resetar Sensores
         [0] Sair
         """)
 
@@ -22,28 +21,28 @@ def __init__():
             break
         
         if option == "1": 
-            mainThread = MainThread()
-            mainThread.startSensors()
+            sensors = Sensors()
             print("Sensores Iniciados")
 
         else:
 
-            if mainThread is None:
+            if sensors is None:
                 print("Sensores não iniciados.")
 
             elif option == "2":
-                mainThread.startSampling()
+                sensors.start()
                 print("Amostragem iniciada.")
 
             elif option == "3":
-                mainThread.stopSampling()
+                sensors.stop()
                 print("Amostragem finalizada.")
 
             elif option == "4":
-                mainThread.showSamplingCurrent()
+                sensors.showCurrent()
 
             elif option == "5":
-                mainThread.showSamplingSettings()
+                sensors.reset()
+                print("Configurações dos sensores resetadas.")
 
             else:
                 print("Opção inválida.") 

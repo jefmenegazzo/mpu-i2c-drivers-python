@@ -15,7 +15,7 @@ class MPU9250:
     address_mpu_slave = None
     bus = None
 
-    # Sensor Resolution
+    # Sensor Resolution - Scale Factor
     gres = None # Gyroscope
     ares = None # Accelerometer
     mres = None # Magnetometer
@@ -31,7 +31,7 @@ class MPU9250:
     # @param [in] address_ak - AK8963 I2C slave address.
     # @param [in] address_mpu_slave - MPU-9250 I2C slave address.
     # @param [in] bus - I2C bus board (default:Board Revision 2[1]).
-    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus=1):
+    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus):
         self.address_ak = address_ak
         self.address_mpu_master = address_mpu_master
         self.address_mpu_slave = address_mpu_slave
@@ -44,7 +44,7 @@ class MPU9250:
     # @param [in] mfs - Magnetometer scale select (default:AK8963_BIT_16[16bit])
     # @param [in] mode - Magnetometer mode select (default:AK8963_MODE_C8HZ[Continous 8Hz])
     def configure(self, gfs=GFS_250, afs=AFS_2G, mfs=AK8963_BIT_16, mode=AK8963_MODE_C8HZ, retry=1):
-
+    
         try:
             self.configureMPU6500(gfs, afs)
             self.configureAK8963(mfs, mode)
@@ -64,24 +64,24 @@ class MPU9250:
     def configureMPU6500(self, gfs, afs):
 
         if gfs == GFS_250:
-            self.gres = GYRO_SCALE_MODIFIER_250DEG
+            self.gres = GYRO_SCALE_MODIFIER_250DEG_DIV
         elif gfs == GFS_500:
-            self.gres = GYRO_SCALE_MODIFIER_500DEG
+            self.gres = GYRO_SCALE_MODIFIER_500DEG_DIV
         elif gfs == GFS_1000:
-            self.gres = GYRO_SCALE_MODIFIER_1000DEG
+            self.gres = GYRO_SCALE_MODIFIER_1000DEG_DIV
         elif gfs == GFS_2000:
-            self.gres = GYRO_SCALE_MODIFIER_2000DEG
+            self.gres = GYRO_SCALE_MODIFIER_2000DEG_DIV
         else:
             raise Exception('Gyroscope scale modifier not found.')
 
         if afs == AFS_2G:
-            self.ares = ACCEL_SCALE_MODIFIER_2G
+            self.ares = ACCEL_SCALE_MODIFIER_2G_DIV
         elif afs == AFS_4G:
-            self.ares = ACCEL_SCALE_MODIFIER_4G
+            self.ares = ACCEL_SCALE_MODIFIER_4G_DIV
         elif afs == AFS_8G:
-            self.ares = ACCEL_SCALE_MODIFIER_8G
+            self.ares = ACCEL_SCALE_MODIFIER_8G_DIV
         elif afs == AFS_16G:
-            self.ares = ACCEL_SCALE_MODIFIER_16G
+            self.ares = ACCEL_SCALE_MODIFIER_16G_DIV
         else:
             raise Exception('Accelerometer scale modifier not found.')
 
@@ -94,8 +94,9 @@ class MPU9250:
         time.sleep(0.1)
 
         # DLPF_CFG
-        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
+        # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
         # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x03)
+        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x05)
 
         # sample rate divider
         self.bus.write_byte_data(self.address_mpu_master, SMPLRT_DIV, 0x04)
@@ -107,8 +108,9 @@ class MPU9250:
         self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG, afs << 3)
 
         # A_DLPFCFG
-        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
+        # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
         # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x03)
+        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x05)
 
         if self.address_mpu_slave is None:
 
@@ -147,10 +149,11 @@ class MPU9250:
 
             # DLPF_CFG
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, CONFIG)
-            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
 
-            # DLPF_CFG
+            # sample rate divider
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, SMPLRT_DIV)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x04)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
@@ -167,7 +170,8 @@ class MPU9250:
 
             # A_DLPFCFG
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, ACCEL_CONFIG_2)
-            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
 
             # BYPASS_EN enable
@@ -194,9 +198,9 @@ class MPU9250:
     def configureAK8963(self, mfs, mode):
 
         if mfs == AK8963_BIT_14:
-            self.mres = MAGNOMETER_SCALE_MODIFIER_BIT_14
+            self.mres = MAGNOMETER_SCALE_MODIFIER_BIT_14_DIV
         elif mfs == AK8963_BIT_16:
-            self.mres = MAGNOMETER_SCALE_MODIFIER_BIT_16
+            self.mres = MAGNOMETER_SCALE_MODIFIER_BIT_16_DIV
         else:
             raise Exception('Magnetometer scale modifier not found.')
 
@@ -307,8 +311,14 @@ class MPU9250:
     #  @retval y - y-axis data
     #  @retval z - z-axis data
     def readAccelerometerMaster(self):
-        data = self.bus.read_i2c_block_data(self.address_mpu_master, ACCEL_OUT, 6)
-        return self.convertAccelerometer(data)
+
+        try:
+
+            data = self.bus.read_i2c_block_data(self.address_mpu_master, ACCEL_OUT, 6)
+            return self.convertAccelerometer(data)
+    
+        except OSError:
+            return self.getDataError()       
 
     def readAccelerometerSlave(self):
 
@@ -316,16 +326,22 @@ class MPU9250:
             return self.getDataError()
 
         else:   
-            data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_00, 6)
-            return self.convertAccelerometer(data)
+
+            try:
+                
+                data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_00, 6)
+                return self.convertAccelerometer(data)
+
+            except OSError:
+                return self.getDataError()
             
     def convertAccelerometer(self, data):
         
-        x = self.dataConv(data[1], data[0]) * self.ares * GRAVITY
-        y = self.dataConv(data[3], data[2]) * self.ares * GRAVITY
-        z = self.dataConv(data[5], data[4]) * self.ares * GRAVITY
+        x = (self.dataConv(data[1], data[0]) / self.ares) * GRAVITY
+        y = (self.dataConv(data[3], data[2]) / self.ares) * GRAVITY
+        z = (self.dataConv(data[5], data[4]) / self.ares) * GRAVITY
 
-        return {"x": x, "y": y, "z": z}
+        return [x, y, z]
         
     # Read gyroscope
     #  @param [in] self - The object pointer.
@@ -333,8 +349,14 @@ class MPU9250:
     #  @retval y - y-gyro data
     #  @retval z - z-gyro data
     def readGyroscopeMaster(self):
-        data = self.bus.read_i2c_block_data(self.address_mpu_master, GYRO_OUT, 6)
-        return self.convertGyroscope(data)
+       
+        try:
+            
+            data = self.bus.read_i2c_block_data(self.address_mpu_master, GYRO_OUT, 6)
+            return self.convertGyroscope(data)
+
+        except OSError:
+            return self.getDataError()
 
     def readGyroscopeSlave(self):
 
@@ -342,16 +364,22 @@ class MPU9250:
             return self.getDataError()
 
         else:   
-            data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_08, 6)
-            return self.convertGyroscope(data)
+
+            try:
+                
+                data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_08, 6)
+                return self.convertGyroscope(data)
+
+            except OSError:
+                return self.getDataError()
                 
     def convertGyroscope(self, data):
         
-        x = self.dataConv(data[1], data[0]) * self.gres
-        y = self.dataConv(data[3], data[2]) * self.gres
-        z = self.dataConv(data[5], data[4]) * self.gres
+        x = self.dataConv(data[1], data[0]) / self.gres
+        y = self.dataConv(data[3], data[2]) / self.gres
+        z = self.dataConv(data[5], data[4]) / self.gres
 
-        return {"x": x, "y": y, "z": z}
+        return [x, y, z]
 
     # Read magnetometer
     #  @param [in] self - The object pointer.
@@ -360,48 +388,92 @@ class MPU9250:
     #  @retval z - Z-magneto data
     def readMagnetometerMaster(self):
 
-        data = None
+        try:
+            
+            data = None
 
-        if self.address_mpu_slave is None:
-            data = self.bus.read_i2c_block_data(self.address_ak, AK8963_MAGNET_OUT, 7)
+            if self.address_mpu_slave is None:
+                data = self.bus.read_i2c_block_data(self.address_ak, AK8963_MAGNET_OUT, 7)
 
-        else:   
-            data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_14, 7)          
+            else:   
+                data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_14, 7)          
 
-        return self.convertMagnetometer(data)
+            return self.convertMagnetometer(data)
+            
+        except OSError:
+            return self.getDataError()        
 
     def readMagnetometerSlave(self):
         return self.getDataError()
     
     def convertMagnetometer(self, data):
 
-        x = 0
-        y = 0
-        z = 0
-
         # check overflow
         if (data[6] & 0x08) != 0x08:
-            x = self.dataConv(data[0], data[1]) * self.mres * self.magXcoef
-            y = self.dataConv(data[2], data[3]) * self.mres * self.magYcoef
-            z = self.dataConv(data[4], data[5]) * self.mres * self.magZcoef
-
-        return {"x": x, "y": y, "z": z}
+            x = (self.dataConv(data[0], data[1]) / self.mres) * self.magXcoef
+            y = (self.dataConv(data[2], data[3]) / self.mres) * self.magYcoef
+            z = (self.dataConv(data[4], data[5]) / self.mres) * self.magZcoef
+            return [x, y, z]
+        
+        else:
+            return self.getDataError()
 
     # Read temperature
     #  @param [in] self - The object pointer.
     #  @retval temperature - temperature(degrees C)
     def readTemperatureMaster(self):
-        data = self.bus.read_i2c_block_data(self.address_mpu_master, TEMP_OUT, 2)
-        return self.convertTemperature(data) 
+
+        try:
+            
+            data = self.bus.read_i2c_block_data(self.address_mpu_master, TEMP_OUT, 2)
+            return self.convertTemperature(data) 
+
+        except OSError:
+            return None
         
     def readTemperatureSlave(self):
-        data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_06, 2)
-        return self.convertTemperature(data)
+
+        try:
+            
+            data = self.bus.read_i2c_block_data(self.address_mpu_master, EXT_SENS_DATA_06, 2)
+            return self.convertTemperature(data)
+
+        except OSError:
+            return None
 
     def convertTemperature(self, data):
         temp = self.dataConv(data[1], data[0])
         temp = (temp / 333.87 + 21.0)
         return temp
+
+    # Get array with data from all sensors
+    def getAllData(self): 
+
+        timestamp = time.time()
+        
+        try:
+            
+            dataMPU = self.bus.read_i2c_block_data(self.address_mpu_master, FIRST_DATA_POSITION, 28)
+            dataAK = self.readMagnetometerMaster()
+
+            accMaster = self.convertAccelerometer(dataMPU[0:6])
+            # tempMaster = self.convertTemperature(dataMPU[6:8])
+            gyroMaster = self.convertGyroscope(dataMPU[8:14])
+
+            if not(self.address_mpu_slave is None):
+                accSlave = self.convertAccelerometer(dataMPU[14:20])
+                # tempSlave = self.convertTemperature(dataMPU[20:22])
+                gyroSlave = self.convertGyroscope(dataMPU[22:28])
+    
+            else:
+                accSlave = [0, 0, 0]
+                # tempSlave = [0]
+                gyroSlave = [0, 0, 0]
+
+            return [timestamp] + accMaster + gyroMaster + accSlave + gyroSlave + dataAK
+    
+        except OSError:
+            return [timestamp, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]       
 
     # Data Convert
     # @param [in] self: The object pointer.
@@ -441,5 +513,6 @@ class MPU9250:
         drdy = self.bus.read_byte_data(self.address_ak, AK8963_ST1)
         return drdy & 0x01
 
+    # Data when data is not available/error when read
     def getDataError(self):
-        return {"x": 0, "y": 0, "z": 0}
+        return [0, 0, 0]
