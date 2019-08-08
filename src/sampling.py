@@ -29,12 +29,7 @@ class Sampling(Thread):
 
     def startSampling(self, timeSync):
 
-        self.file = self.folder 
-        + "/mpu-data-set-" 
-        + str(hex(self.mpu.address_mpu_master)) 
-        + " " 
-        + datetime.datetime.fromtimestamp(timeSync).strftime('%d-%m-%Y %H-%M-%S') 
-        + ".csv"
+        self.file = self.folder + "/mpu-data-set-" + str(hex(self.mpu.address_mpu_master)) + " " + datetime.datetime.fromtimestamp(timeSync).strftime('%d-%m-%Y %H-%M-%S') + ".csv"
 
         if not os.path.exists(self.folder):
             os.makedirs(self.folder)
