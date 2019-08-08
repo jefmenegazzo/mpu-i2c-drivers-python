@@ -11,12 +11,6 @@ time = "*"
 sys = "*"
 csv = "*"
 os = "*"
-python-serial = "*"
-pynmea2 = "*"
-gpsd = "*"
-gpsd-clients = "*"
-python-gps = "*"
-minicom = "*"
 
 [requires]
 python_version = "3.7"
