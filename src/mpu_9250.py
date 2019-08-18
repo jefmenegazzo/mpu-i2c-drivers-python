@@ -94,9 +94,9 @@ class MPU9250:
         time.sleep(0.1)
 
         # DLPF_CFG
-        # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
+        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x00)
         # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x03)
-        self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x05)
+        # self.bus.write_byte_data(self.address_mpu_master, CONFIG, 0x05)
 
         # sample rate divider
         self.bus.write_byte_data(self.address_mpu_master, SMPLRT_DIV, 0x04)
@@ -108,9 +108,9 @@ class MPU9250:
         self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG, afs << 3)
 
         # A_DLPFCFG
-        # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
+        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x00)
         # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x03)
-        self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x05)
+        # self.bus.write_byte_data(self.address_mpu_master, ACCEL_CONFIG_2, 0x05)
 
         if self.address_mpu_slave is None:
 
@@ -149,8 +149,8 @@ class MPU9250:
 
             # DLPF_CFG
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, CONFIG)
-            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
-            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
 
             # sample rate divider
@@ -170,8 +170,8 @@ class MPU9250:
 
             # A_DLPFCFG
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, ACCEL_CONFIG_2)
-            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
-            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
+            self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x00)
+            # self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, 0x05)
             self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
 
             # BYPASS_EN enable
