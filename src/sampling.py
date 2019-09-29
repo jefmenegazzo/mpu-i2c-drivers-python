@@ -9,7 +9,7 @@ from mpu_9250 import MPU9250
 class Sampling(Thread):
 
     running = False
-    sampling_rate = 0.1 # 100 Hz
+    sampling_rate = 0.01 # 100 Hz
     sleepStartSeconds = 5
 
     mpu = None
@@ -84,7 +84,7 @@ class Sampling(Thread):
             "slave_gyro_x", 
             "slave_gyro_y", 
             "slave_gyro_z", 
-            "mag_x"
-            "mag_y"
+            "mag_x",
+            "mag_y",
             "mag_z"
         ]
