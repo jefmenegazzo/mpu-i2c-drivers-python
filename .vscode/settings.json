@@ -6,5 +6,9 @@
         ".gitignore": true,
         "Pipfile.lock": true,
     },
-    "python.analysis.disabled": ["unresolved-import", "undefined-variable"]
+    "python.analysis.disabled": [
+        "unresolved-import",
+        "undefined-variable"
+    ],
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
 }

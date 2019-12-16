@@ -1,8 +1,12 @@
 """
+Based on:
 https://github.com/nickcoutsos/MPU-6050-Python/blob/master/MPU6050.py
 https://github.com/Tijndagamer/mpu6050/blob/master/mpu6050/mpu6050.py
 https://github.com/FaBoPlatform/FaBo9AXIS-MPU9250-Python/blob/master/FaBo9Axis_MPU9250/MPU9250.py
 https://github.com/kriswiner/MPU9250
+https://github.com/kriswiner/MPU6050/blob/master/MPU6050IMU.ino
+https://github.com/kriswiner/MPU6050/wiki/Simple-and-Effective-Magnetometer-Calibration
+https://github.com/kriswiner/MPU9250/blob/master/MPU9250_MS5637_AHRS_t3.ino
 """
 
 import smbus, time
@@ -10,11 +14,17 @@ from registers import *
 
 class MPU9250:
 
-    # Settings
+    # Address Settings
     address_ak = None
     address_mpu_master = None
     address_mpu_slave = None
     bus = None
+
+    # Sensor Full Scale
+    gfs = None # Gyroscope
+    afs = None # Accelerometer
+    mfs = None # Magnetometer
+    mode = None # Magnetometer Mode
 
     # Sensor Resolution - Scale Factor
     gres = None # Gyroscope
@@ -22,50 +32,54 @@ class MPU9250:
     mres = None # Magnetometer
 
     # Magnometer Sensitivity
-    magXcoef = None
-    magYcoef = None
-    magZcoef = None
+    magCalibration = [0, 0, 0]
+    magScale = [1, 1, 1]
 
     # Master and Slave Biases
-    gbias = [0,0,0]
-    gbias_slave = [0,0,0]
-    abias = [0,0,0]
-    abias_slave = [0,0,0]
+    gbias = [0, 0, 0]
+    gbias_slave = [0, 0, 0]
+    abias = [0, 0, 0]
+    abias_slave = [0, 0, 0]
+    mbias = [0, 0, 0]
 
     # Constructor
     # @param [in] self - The object pointer.
-    # @param [in] address_mpu_master - MPU-9250 I2C address.
     # @param [in] address_ak - AK8963 I2C slave address.
+    # @param [in] address_mpu_master - MPU-9250 I2C address.
     # @param [in] address_mpu_slave - MPU-9250 I2C slave address.
     # @param [in] bus - I2C bus board (default:Board Revision 2[1]).
-    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus):
+    # @param [in] gfs - Gyroscope full scale select (default:GFS_2000[+250dps]).
+    # @param [in] afs - Accelerometer full scale select (default:AFS_16G[2g]).
+    # @param [in] mfs - Magnetometer scale select (default:AK8963_BIT_16[16bit])
+    # @param [in] mode - Magnetometer mode select (default:AK8963_MODE_C100HZ[Continous 8Hz])
+    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus=1, gfs=GFS_2000, afs=AFS_16G, mfs=AK8963_BIT_16, mode=AK8963_MODE_C100HZ):
         self.address_ak = address_ak
         self.address_mpu_master = address_mpu_master
         self.address_mpu_slave = address_mpu_slave
         self.bus = smbus.SMBus(bus)
+        self.gfs = gfs
+        self.afs = afs
+        self.mfs = mfs
+        self.mode = mode
        
-    # Configure MPU
+    # Configure MPU-9250
     # @param [in] self - The object pointer.
-    # @param [in] gfs - Gyroscope full scale select (default:GFS_250[+250dps]).
-    # @param [in] afs - Accelerometer full scale select (default:AFS_2G[2g]).
-    # @param [in] mfs - Magnetometer scale select (default:AK8963_BIT_16[16bit])
-    # @param [in] mode - Magnetometer mode select (default:AK8963_MODE_C8HZ[Continous 8Hz])
-    def configure(self, gfs=GFS_250, afs=AFS_2G, mfs=AK8963_BIT_16, mode=AK8963_MODE_C8HZ, retry=1):
+    # @param [in] retry - number of retries.
+    def configure(self, retry=3):
     
         try:
-            self.calibrateMPU6050()
-            self.configureMPU6050(gfs, afs)
-            self.configureAK8963(mfs, mode)
+            self.configureMPU6050(self.gfs, self.afs)
+            self.configureAK8963(self.mfs, self.mode)
         
         except OSError as err:
 
-            if(retry <= 3):
-                self.configure(gfs, afs, mfs, mode, retry + 1)
+            if(retry > 1):
+                self.configure(retry - 1)
 
             else:
                 raise err
 
-    # Configure MPU-9250
+    # Configure MPU-6050
     # @param [in] self - The object pointer.
     # @param [in] gfs - Gyroscope full scale select.
     # @param [in] afs - Accelerometer full scale select.
@@ -177,7 +191,7 @@ class MPU9250:
 
     # Configure AK8963
     # @param [in] self - The object pointer.
-    # @param [in] mfs - Magneto scale select.
+    # @param [in] mfs - Magnetometer full scale select.
     # @param [in] mode - Magnetometer mode select.
     def configureAK8963(self, mfs, mode):
 
@@ -240,32 +254,46 @@ class MPU9250:
             self.writeMaster(I2C_SLV1_REG, AK8963_MAGNET_OUT)
             self.writeMaster(I2C_SLV1_CTRL, 0x87) # read 7 bytes
 
-        self.magXcoef = (data[0] - 128) / 256.0 + 1.0
-        self.magYcoef = (data[1] - 128) / 256.0 + 1.0
-        self.magZcoef = (data[2] - 128) / 256.0 + 1.0
+        self.magCalibration = [
+            (data[0] - 128) / 256.0 + 1.0,
+            (data[1] - 128) / 256.0 + 1.0,
+            (data[2] - 128) / 256.0 + 1.0
+        ]
         
-    # Reset sensors registers values.
-    def reset(self):
+    # resets the values of the sensor registers.
+    # @param [in] self - The object pointer.
+    # @param [in] retry - number of retries.
+    def reset(self, retry=3):
 
-        if not(self.address_mpu_slave is None):
-            self.resetMPU9250Slave()
+        try:
+            
+            if not(self.address_mpu_slave is None):
+                self.resetMPU9250Slave()
 
-        self.resetMPU9250Master()          
+            self.resetMPU9250Master()
+        
+        except OSError as err:
 
-    # Reset all master registers to default
+            if(retry > 1):
+                self.reset(retry - 1)
+
+            else:
+                raise err
+
+    # Reset all master registers to default.
+    # @param [in] self - The object pointer.
     def resetMPU9250Master(self):
         self.writeMaster(PWR_MGMT_1, 0x80, 0.1) 
 
-    # Reset all slave registers to default
+    # Reset all slave registers to default.
+    # @param [in] self - The object pointer.
     def resetMPU9250Slave(self):
         self.setSlaveToWrite()
         self.writeSlave(PWR_MGMT_1, 0x80, 0.1)
 
-    # Read accelerometer
+    # Read accelerometer from master.
     #  @param [in] self - The object pointer.
-    #  @retval x - x-axis data
-    #  @retval y - y-axis data
-    #  @retval z - z-axis data
+    #  @retval [x, y, z] - acceleration data.
     def readAccelerometerMaster(self):
 
         try:
@@ -276,6 +304,9 @@ class MPU9250:
         except OSError:
             return self.getDataError()       
 
+    # Read accelerometer from slave.
+    #  @param [in] self - The object pointer.
+    #  @retval [x, y, z] - acceleration data.
     def readAccelerometerSlave(self):
 
         if self.address_mpu_slave is None:
@@ -291,6 +322,11 @@ class MPU9250:
             except OSError:
                 return self.getDataError()
             
+    # Convert accelerometer byte block to apply scale factor and biases.
+    #  @param [in] self - The object pointer.
+    #  @param [in] data - accelerometer 6-byte block.
+    #  @param [in] abias - biases.
+    #  @retval [x, y, z] - acceleration data.
     def convertAccelerometer(self, data, abias):
         
         x = ((self.dataConv(data[1], data[0]) / self.ares) - abias[0]) * GRAVITY
@@ -299,11 +335,9 @@ class MPU9250:
 
         return [x, y, z]
         
-    # Read gyroscope
+    # Read gyroscope from master.
     #  @param [in] self - The object pointer.
-    #  @retval x - x-gyro data
-    #  @retval y - y-gyro data
-    #  @retval z - z-gyro data
+    #  @retval [x, y, z] - gyroscope data.
     def readGyroscopeMaster(self):
        
         try:
@@ -314,6 +348,9 @@ class MPU9250:
         except OSError:
             return self.getDataError()
 
+    # Read gyroscope from slave.
+    #  @param [in] self - The object pointer.
+    #  @retval [x, y, z] - gyroscope data.
     def readGyroscopeSlave(self):
 
         if self.address_mpu_slave is None:
@@ -328,7 +365,12 @@ class MPU9250:
 
             except OSError:
                 return self.getDataError()
-                
+
+    # Convert gyroscope byte block to apply scale factor and biases.
+    #  @param [in] self - The object pointer.
+    #  @param [in] data - gyroscope 6-byte block.
+    #  @param [in] gbias - biases.
+    #  @retval [x, y, z] - gyroscope data.            
     def convertGyroscope(self, data, gbias):
         
         x = (self.dataConv(data[1], data[0]) / self.gres) - gbias[0]
@@ -337,11 +379,9 @@ class MPU9250:
 
         return [x, y, z]
 
-    # Read magnetometer
+    # Read magnetometer from master.
     #  @param [in] self - The object pointer.
-    #  @retval x - X-magneto data
-    #  @retval y - y-magneto data
-    #  @retval z - Z-magneto data
+    #  @retval [x, y, z] - magnetometer data.   
     def readMagnetometerMaster(self):
 
         try:
@@ -359,24 +399,28 @@ class MPU9250:
         except OSError:
             return self.getDataError()        
 
-    def readMagnetometerSlave(self):
-        return self.getDataError()
-    
+    # Convert magnetometer byte block to apply scale factor, biases and coeficiente.
+    #  @param [in] self - The object pointer.
+    #  @param [in] data - magnetometer 7-byte block.
+    #  @retval [x, y, z] - magnetometer data.   
     def convertMagnetometer(self, data):
 
         # check overflow
         if (data[6] & 0x08) != 0x08:
-            x = (self.dataConv(data[0], data[1]) / self.mres) * self.magXcoef
-            y = (self.dataConv(data[2], data[3]) / self.mres) * self.magYcoef
-            z = (self.dataConv(data[4], data[5]) / self.mres) * self.magZcoef
+            x = (self.dataConv(data[0], data[1]) / self.mres) * self.magCalibration[0] - self.mbias[0]
+            y = (self.dataConv(data[2], data[3]) / self.mres) * self.magCalibration[1] - self.mbias[1]
+            z = (self.dataConv(data[4], data[5]) / self.mres) * self.magCalibration[2] - self.mbias[2]
+            x *= self.magScale[0]
+            y *= self.magScale[1]
+            z *= self.magScale[2]
             return [x, y, z]
         
         else:
             return self.getDataError()
 
-    # Read temperature
+    # Read temperature from master.
     #  @param [in] self - The object pointer.
-    #  @retval temperature - temperature(degrees C)
+    #  @retval temperature - temperature(degrees C).
     def readTemperatureMaster(self):
 
         try:
@@ -386,7 +430,10 @@ class MPU9250:
 
         except OSError:
             return None
-        
+
+    # Read temperature from slave.
+    #  @param [in] self - The object pointer.
+    #  @retval temperature - temperature(degrees C).   
     def readTemperatureSlave(self):
 
         try:
@@ -397,12 +444,18 @@ class MPU9250:
         except OSError:
             return None
 
+    # Convert temperature byte block to apply to a value in measure unit (degrees C).
+    #  @param [in] self - The object pointer.
+    #  @param [in] data - temperature 2-byte block.
+    #  @retval temperature - temperature data.   
     def convertTemperature(self, data):
         temp = self.dataConv(data[1], data[0])
         temp = (temp / 333.87 + 21.0)
         return temp
 
-    # Get array with data from all sensors
+    # Get array with data from all sensors obtained at same time.
+    #  @param [in] self - The object pointer.
+    #  @retval [[timestamp], [accMaster], [gyroMaster], [accSlave], [gyroSlave], [dataAK] ] - all sensors data.   
     def getAllData(self): 
 
         timestamp = time.time()
@@ -429,16 +482,17 @@ class MPU9250:
             return [timestamp] + accMaster + gyroMaster + accSlave + gyroSlave + dataAK
     
         except OSError:
-            return [timestamp, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]       
+            return [timestamp] + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError()        
 
-    # Data when data is not available/error when read
+    # When data is not available/error when read, is returned an array with 0.
+    #  @param [in] self - The object pointer.
     def getDataError(self):
         return [0, 0, 0]
    
     # Data Convert
-    # @param [in] self: The object pointer.
-    # @param [in] data1: LSB
-    # @param [in] data2: MSB
+    # @param [in] self - The object pointer.
+    # @param [in] data1 - LSB
+    # @param [in] data2 - MSB
     # @retval Value: MSB+LSB(int 16bit)
     def dataConv(self, data1, data2):
 
@@ -449,33 +503,58 @@ class MPU9250:
 
         return value
 
-    # Search MPU Device
-    #  @param [in] self: The object pointer.
-    #  @retval true: device connected
-    #  @retval false: device error
+    # Search MPU Device master.
+    #  @param [in] self - The object pointer.
+    #  @retval true - device connected
+    #  @retval false - device error
     def searchMPUDevice(self):
         who_am_i = self.readMaster(WHO_AM_I, 1)[0]
         return who_am_i == DEVICE_ID
 
-    #  Check MPU data ready
-    #  @param [in] self: The object pointer.
-    #  @retval true: data is ready
-    #  @retval false: data is not ready
+    #  Check MPU data ready master.
+    #  @param [in] self - The object pointer.
+    #  @retval true - data is ready
+    #  @retval false - data is not ready
     def checkMPUDataReady(self):
         drdy = self.readMaster(INT_STATUS, 1)[0]
         return drdy & 0x01
 
-    #  Check AK data ready
-    #  @param [in] self: The object pointer.
-    #  @retval true: data is ready
-    #  @retval false: data is not ready
+    #  Check AK data ready.
+    #  @param [in] self - The object pointer.
+    #  @retval true - data is ready
+    #  @retval false - data is not ready
     def checkAKDataReady(self):
         drdy = self.readAK(AK8963_ST1, 1)[0]
         return drdy & 0x01
 
-    # Funciona apenas com master e não slave. Necessário posicionar corretamente o MPU antes.
-    # Function which accumulates gyro and accelerometer data after device initialization. It calculates the average
+    # Calibrate all sensors.
+    #  @param [in] self - The object pointer.
+    #  @param [in] retry - number of retries.
+    def calibrate(self, retry=3):
+
+        try:
+            # self.calibrateAK8963()
+            self.calibrateMPU6050()
+
+            print(self.abias)
+            print(self.abias_slave)
+            print(self.gbias)
+            print(self.gbias_slave)
+            print("\n")
+
+        except OSError as err:
+
+            if(retry > 1):
+                self.calibrate(retry - 1)
+
+            else:
+                raise err
+
+    # To calibrate, you must correctly position the MPU so that gravity is all along the z axis of the accelerometer.
+    # This function accumulates gyro and accelerometer data after device initialization. It calculates the average
     # of the at-rest readings and then loads the resulting offsets into accelerometer and gyro bias registers.
+    # This function reset sensor registers. Configure must be called after.
+    #  @param [in] self - The object pointer.
     def calibrateMPU6050(self):
 
         # reset device
@@ -497,7 +576,7 @@ class MPU9250:
         self.writeMaster(CONFIG, 0x01) # Set low-pass filter to 188 Hz
         self.writeMaster(SMPLRT_DIV, 0x00) # Set sample rate to 1 kHz
         self.writeMaster(GYRO_CONFIG, 0x00) # Set gyro full-scale to 250 degrees per second, maximum sensitivity
-        self.writeMaster(ACCEL_CONFIG, 0x00) # Set accelerometer full-scale to 2 g, maximum sensitivity
+        self.writeMaster(ACCEL_CONFIG, 0x00) # Set accelerometer full-scale to 2G, maximum sensitivity
 
         # Configure FIFO to capture accelerometer and gyro data for bias calculation
         self.writeMaster(USER_CTRL, 0x40) # Enable FIFO
@@ -545,17 +624,86 @@ class MPU9250:
         else:
             accel_bias[2] += ACCEL_SCALE_MODIFIER_2G_DIV
 
+        # Output scaled gyro biases for display in the main program
+        self.gbias = [
+            (gyro_bias[0] / GYRO_SCALE_MODIFIER_250DEG_DIV),
+            (gyro_bias[1] / GYRO_SCALE_MODIFIER_250DEG_DIV),
+            (gyro_bias[2] / GYRO_SCALE_MODIFIER_250DEG_DIV)
+        ]
+
+        # Output scaled accelerometer biases for manual subtraction in the main program
         self.abias = [
             (accel_bias[0] / ACCEL_SCALE_MODIFIER_2G_DIV),
             (accel_bias[1] / ACCEL_SCALE_MODIFIER_2G_DIV),
             (accel_bias[2] / ACCEL_SCALE_MODIFIER_2G_DIV)
         ]
 
-        self.gbias = [
-            (gyro_bias[0] / GYRO_SCALE_MODIFIER_250DEG_DIV),
-            (gyro_bias[1] / GYRO_SCALE_MODIFIER_250DEG_DIV),
-            (gyro_bias[2] / GYRO_SCALE_MODIFIER_250DEG_DIV)
-        ]
+        # # Construct the gyro biases for push to the hardware gyro bias registers, which are reset to zero upon device startup
+        # data = [0, 0, 0, 0, 0, 0]
+        # data[0] = (int(-gyro_bias[0] / 4) >> 8) & 0xFF # Divide by 4 to get 32.9 LSB per deg/s to conform to expected bias input format
+        # data[1] = (int(-gyro_bias[0] / 4)     ) & 0xFF # Biases are additive, so change sign on calculated average gyro biases
+        # data[2] = (int(-gyro_bias[1] / 4) >> 8) & 0xFF
+        # data[3] = (int(-gyro_bias[1] / 4)     ) & 0xFF
+        # data[4] = (int(-gyro_bias[2] / 4) >> 8) & 0xFF
+        # data[5] = (int(-gyro_bias[2] / 4)     ) & 0xFF
+
+        # # Push gyro biases to hardware registers
+        # self.writeMaster(XG_OFFSET_H, data[0])
+        # self.writeMaster(XG_OFFSET_L, data[1])
+        # self.writeMaster(YG_OFFSET_H, data[2])
+        # self.writeMaster(YG_OFFSET_L, data[3])
+        # self.writeMaster(ZG_OFFSET_H, data[4])
+        # self.writeMaster(ZG_OFFSET_L, data[5])
+
+        # # Construct the accelerometer biases for push to the hardware accelerometer bias registers. These registers contain
+        # # factory trim values which must be added to the calculated accelerometer biases; on boot up these registers will hold
+        # # non-zero values. In addition, bit 0 of the lower byte must be preserved since it is used for temperature
+        # # compensation calculations. Accelerometer bias registers expect bias input as 2048 LSB per g, so that
+        # # the accelerometer biases calculated above must be divided by 8.
+
+        # accel_bias_reg = [0, 0, 0] # A place to hold the factory accelerometer trim biases
+        # data = self.readMaster(XA_OFFSET_H, 2) # Read factory accelerometer trim values
+        # accel_bias_reg[0] = self.dataConv(data[1], data[0])
+        # data = self.readMaster(YA_OFFSET_H, 2)
+        # accel_bias_reg[1] = self.dataConv(data[1], data[0])
+        # data = self.readMaster(ZA_OFFSET_H, 2)
+        # accel_bias_reg[2] = self.dataConv(data[1], data[0])
+
+        # mask = 1 # Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers
+        # mask_bit = [0, 0, 0]  # Define array to hold mask bit for each accelerometer bias axis
+        
+        # index = 0
+
+        # while index < 3:
+
+        #     if accel_bias_reg[index] & mask:
+        #         mask_bit[index] = 0x01 # If temperature compensation bit is set, record that fact in mask_bit
+
+        #     index += 1
+
+        # # Construct total accelerometer bias, including calculated average accelerometer bias from above
+        # accel_bias_reg[0] -= (accel_bias[0] / 8) # Subtract calculated averaged accelerometer bias scaled to 2048 LSB/g (16 g full scale)
+        # accel_bias_reg[1] -= (accel_bias[1] / 8)
+        # accel_bias_reg[2] -= (accel_bias[2] / 8)
+ 
+        # data = [0, 0, 0, 0, 0, 0]
+        # data[0] = (int(accel_bias_reg[0]) >> 8) & 0xFF
+        # data[1] = (int(accel_bias_reg[0]))      & 0xFF
+        # data[1] = data[1] | mask_bit[0] # preserve temperature compensation bit when writing back to accelerometer bias registers
+        # data[2] = (int(accel_bias_reg[1]) >> 8) & 0xFF
+        # data[3] = (int(accel_bias_reg[1]))      & 0xFF
+        # data[3] = data[3] | mask_bit[1] # preserve temperature compensation bit when writing back to accelerometer bias registers
+        # data[4] = (int(accel_bias_reg[2]) >> 8) & 0xFF
+        # data[5] = (int(accel_bias_reg[2]))      & 0xFF
+        # data[5] = data[5] | mask_bit[2] # preserve temperature compensation bit when writing back to accelerometer bias registers
+
+        # # Push accelerometer biases to hardware registers
+        # self.writeMaster(XA_OFFSET_H, data[0])
+        # self.writeMaster(XA_OFFSET_L, data[1])
+        # self.writeMaster(YA_OFFSET_H, data[2])
+        # self.writeMaster(YA_OFFSET_L, data[3])
+        # self.writeMaster(ZA_OFFSET_H, data[4])
+        # self.writeMaster(ZA_OFFSET_L, data[5])
 
         if not(self.address_mpu_slave is None):
 
@@ -600,16 +748,17 @@ class MPU9250:
             self.setSlaveToRead()
 
             # read FIFO sample count
-            data = []
-            data.append(self.readSlave(FIFO_COUNTH)) 
-            data.append(self.readSlave(FIFO_COUNTL)) 
+            data = [
+                self.readSlave(FIFO_COUNTH),
+                self.readSlave(FIFO_COUNTL)
+            ]
 
             fifo_count = self.dataConv(data[1], data[0])
             packet_count = int(fifo_count / 12); # How many sets of full gyro and accelerometer data for averaging
 
             if fifo_count == 0:
                 print("Não foi possível conectar no slave para calibrar")
-            
+
             else:
 
                 index = 0
@@ -663,6 +812,95 @@ class MPU9250:
                 ]
 
         self.reset()
+
+    #This function reset sensor registers. Configure must be called after.
+    #  @param [in] self - The object pointer.
+    def calibrateAK8963(self):
+        
+        self.configureAK8963(self.mfs, self.mode)
+
+        index = 0
+        sample_count = 0
+        mag_bias = [0, 0, 0]
+        mag_scale = [0, 0, 0]
+        mag_max = [-32767, -32767, -32767]
+        mag_min = [32767, 32767, 32767]
+        mag_temp = [0, 0, 0]
+
+        # shoot for ~fifteen seconds of mag data
+        if (self.mode == AK8963_MODE_C8HZ):
+            sample_count = 128; # at 8 Hz ODR, new mag data is available every 125 ms
+        
+        if (self.mode == AK8963_MODE_C100HZ):
+            sample_count = 1500; # at 100 Hz ODR, new mag data is available every 10 ms
+
+        index = 0
+        
+        while index < sample_count:
+
+            index += 1
+            data = None
+
+            if self.address_mpu_slave is None:
+                data = self.readAK(AK8963_MAGNET_OUT, 7)
+
+            else:   
+                data = self.readMaster(EXT_SENS_DATA_14, 7)     
+
+            if (data[6] & 0x08) != 0x08:
+                
+                mag_temp = [
+                    self.dataConv(data[0], data[1]),
+                    self.dataConv(data[2], data[3]),
+                    self.dataConv(data[4], data[5])
+                ]  
+      
+            else:
+                mag_temp = [0, 0, 0]
+
+            indexAxes = 0
+
+            while indexAxes < 3 :
+
+                if (mag_temp[indexAxes] > mag_max[indexAxes]):
+                    mag_max[indexAxes] = mag_temp[indexAxes]
+                if (mag_temp[indexAxes] < mag_min[indexAxes]):
+                    mag_min[indexAxes] = mag_temp[indexAxes]
+
+                indexAxes += 1
+
+            if (self.mode == AK8963_MODE_C8HZ):
+                time.sleep(0.135) # at 8 Hz ODR, new mag data is available every 125 ms
+            
+            if (self.mode == AK8963_MODE_C100HZ):
+                time.sleep(0.012); # at 100 Hz ODR, new mag data is available every 10 ms
+
+        # Get hard iron correction
+        mag_bias[0] = (mag_max[0] + mag_min[0]) / 2 # get average x mag bias in counts
+        mag_bias[1] = (mag_max[1] + mag_min[1]) / 2 # get average y mag bias in counts
+        mag_bias[2] = (mag_max[2] + mag_min[2]) / 2 # get average z mag bias in counts
+
+        magBias = [0, 0, 0] 
+        magBias[0] = (mag_bias[0] / self.mres) * self.magCalibration[0] # save mag biases in G for main program
+        magBias[1] = (mag_bias[1] / self.mres) * self.magCalibration[1]
+        magBias[2] = (mag_bias[2] / self.mres) * self.magCalibration[2]
+
+        self.mbias = magBias
+
+        # Get soft iron correction estimate
+        mag_scale[0] = (mag_max[0] - mag_min[0]) / 2 # get average x axis max chord length in counts
+        mag_scale[1] = (mag_max[1] - mag_min[1]) / 2 # get average y axis max chord length in counts
+        mag_scale[2] = (mag_max[2] - mag_min[2]) / 2 # get average z axis max chord length in counts
+
+        avg_rad = mag_scale[0] + mag_scale[1] + mag_scale[2]
+        avg_rad /= 3.0
+
+        magScale = [0,0,0]
+        magScale[0] = avg_rad / mag_scale[0]
+        magScale[1] = avg_rad / mag_scale[1]
+        magScale[2] = avg_rad / mag_scale[2]
+
+        self.magScale = magScale
 
     ################################################################## Master Methods ##################################################################
 

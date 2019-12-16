@@ -8,24 +8,28 @@ from mpu_9250 import MPU9250
 
 class Sampling(Thread):
 
-    running = False
-    sampling_rate = 0.01 # 100 Hz
-    sleepStartSeconds = 5
-
     mpu = None
-
     folder = "../../data"
     file = None
+    running = False
+    sleepStartSeconds = 5
+    # sampling_rate = 0.01 # 100 Hz
 
-    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus):
+    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode):
         Thread.__init__(self)
-        self.mpu = MPU9250(address_ak, address_mpu_master, address_mpu_slave, bus)
+        self.mpu = MPU9250(address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode)
     
-    def configure(self, gfs, afs, mfs, mode):
-        self.mpu.configure(gfs, afs, mfs, mode)
+    def configure(self):
+        self.mpu.configure()
 
     def reset(self):
         self.mpu.reset()
+
+    def calibrate(self):
+        self.mpu.calibrate()
+
+    def getAllData(self):
+        return self.mpu.getAllData()
 
     def startSampling(self, timeSync):
 
@@ -48,25 +52,27 @@ class Sampling(Thread):
             
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
+            # Writing Labels
             row = self.getLabels()
             spamwriter.writerow(row)
 
-            # Faz com que as threads iniciem ao mesmo tempo
+            # Start threads at same time
             sleepTime = self.sleepStartSeconds + (self.timeSync - int(self.timeSync))
             time.sleep(sleepTime)
 
-            lastTime = time.time()
+            # lastTime = time.time()
 
             while self.running:
 
                 row = self.mpu.getAllData()
                 spamwriter.writerow(row)
-                sleepTime = self.sampling_rate - (time.time() - lastTime)
                 
-                if(sleepTime > 0):
-                    time.sleep(sleepTime)
+                # sleepTime = self.sampling_rate - (row[0] - lastTime)
+                
+                # if(sleepTime > 0):
+                #     time.sleep(sleepTime)
 
-                lastTime = time.time()
+                # lastTime = row[0]
 
     def getLabels(self):
     
