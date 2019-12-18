@@ -8,24 +8,31 @@ from mpu_9250 import MPU9250
 
 class Sampling(Thread):
 
-    running = False
-    sampling_rate = 0.1 # 100 Hz
-    sleepStartSeconds = 5
-
     mpu = None
-
     folder = "../../data"
     file = None
+    running = False
+    sleepStart = 5 # In seconds
+    # sampling_rate = 0.01 # 100 Hz
 
-    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus):
+    def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode):
         Thread.__init__(self)
-        self.mpu = MPU9250(address_ak, address_mpu_master, address_mpu_slave, bus)
+        self.mpu = MPU9250(address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode)
     
-    def configure(self, gfs, afs, mfs, mode):
-        self.mpu.configure(gfs, afs, mfs, mode)
+    def configure(self):
+        self.mpu.configure()
 
     def reset(self):
         self.mpu.reset()
+
+    def calibrate(self):
+        self.mpu.calibrate()
+
+    def getAllData(self):
+        return self.mpu.getAllData()
+
+    def getAllDataLabels(self):
+        return self.mpu.getAllDataLabels()
 
     def startSampling(self, timeSync):
 
@@ -48,43 +55,26 @@ class Sampling(Thread):
             
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
-            row = self.getLabels()
+            # Writing Labels
+            row = self.getAllDataLabels()
             spamwriter.writerow(row)
 
-            # Faz com que as threads iniciem ao mesmo tempo
-            sleepTime = self.sleepStartSeconds + (self.timeSync - int(self.timeSync))
+            # Start threads at same time
+            sleepTime = self.sleepStart + (self.timeSync - int(self.timeSync))
             time.sleep(sleepTime)
 
-            lastTime = time.time()
+            # lastTime = time.time()
 
             while self.running:
 
-                row = self.mpu.getAllData()
+                row = self.getAllData()
                 spamwriter.writerow(row)
-                sleepTime = self.sampling_rate - (time.time() - lastTime)
                 
-                if(sleepTime > 0):
-                    time.sleep(sleepTime)
+                # sleepTime = self.sampling_rate - (row[0] - lastTime)
+                
+                # if(sleepTime > 0):
+                #     time.sleep(sleepTime)
 
-                lastTime = time.time()
+                # lastTime = row[0]
 
-    def getLabels(self):
     
-        return [
-            "timestamp", 
-            "master_acc_x", 
-            "master_acc_y", 
-            "master_acc_z", 
-            "master_gyro_x", 
-            "master_gyro_y", 
-            "master_gyro_z", 
-            "slave_acc_x", 
-            "slave_acc_y", 
-            "slave_acc_z", 
-            "slave_gyro_x", 
-            "slave_gyro_y", 
-            "slave_gyro_z", 
-            "mag_x"
-            "mag_y"
-            "mag_z"
-        ]

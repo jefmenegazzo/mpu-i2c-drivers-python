@@ -1,51 +1,65 @@
 from sensors import Sensors
 
+# Simple comand-line interface
 def __init__():
 
-    sensors = None
+    sensors = None # type: Sensors
 
     while True:
-        
-        print ("""
-        [1] Iniciar Sensores
-        [2] Iniciar Amostragem
-        [3] Finalizar Amostragem
-        [4] Visualizar Amostra Corrente
-        [5] Resetar Sensores
-        [0] Sair
+
+        print("""
+        [1] Sensors - Create/Recreate
+        [2] Sensors - Apply Configuration
+        [3] Sensors - Reset Configuration
+        [4] Sensors - Calibrate
+        [5] Sampling - Start
+        [6] Sampling - Stop
+        [7] Sampling - View Current
+        [0] Exit
         """)
 
-        option = input("Opção: ")
+        option = input("Choice: ")
 
-        if option == "0": 
+        if option == "0":
+
+            if not(sensors is None) and sensors.running:
+                sensors.stop()
+
+            print("Exiting")
             break
-        
-        if option == "1": 
+
+        elif option == "1":
             sensors = Sensors()
-            print("Sensores Iniciados")
+            print("Sensors created")
+
+        elif sensors is None:
+            print("Not created sensors")
+
+        elif option == "2":
+            sensors.configure()
+            print("Configuration applied to sensors")
+
+        elif option == "3":
+            sensors.reset()
+            print("Sensor configurations reseted")
+
+        elif option == "4":
+            sensors.calibrate()
+            print("Calibrated sensors")
+
+        elif option == "5":
+            sensors.start()
+            print("Sampling started")
+
+        elif option == "6":
+            sensors.stop()
+            print("Sampling stoped")
+
+        elif option == "7":
+            sensors.showCurrent()
 
         else:
-
-            if sensors is None:
-                print("Sensores não iniciados.")
-
-            elif option == "2":
-                sensors.start()
-                print("Amostragem iniciada.")
-
-            elif option == "3":
-                sensors.stop()
-                print("Amostragem finalizada.")
-
-            elif option == "4":
-                sensors.showCurrent()
-
-            elif option == "5":
-                sensors.reset()
-                print("Configurações dos sensores resetadas.")
-
-            else:
-                print("Opção inválida.") 
+            print("Invalid Choice.")
 
 if __name__ == "__main__":
 
