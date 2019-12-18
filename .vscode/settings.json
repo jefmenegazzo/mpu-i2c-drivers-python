@@ -1,14 +1,8 @@
 {
-    "python.linting.enabled": false,
     "files.exclude": {
         "**/.git": true,
         "**/__pycache__": true,
         ".gitignore": true,
-        "Pipfile.lock": true,
     },
-    "python.analysis.disabled": [
-        "unresolved-import",
-        "undefined-variable"
-    ],
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
 }
