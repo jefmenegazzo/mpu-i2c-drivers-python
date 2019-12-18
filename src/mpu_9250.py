@@ -574,11 +574,10 @@ class MPU9250:
     def calibrate(self, retry=3):
 
         try:
-            print("Calibrating AK8963")
+            print("Calibrating", hex(self.address_mpu_master), "- AK8963")
             self.calibrateAK8963()
-            print("Calibrating MPU6050")
+            print("Calibrating", hex(self.address_mpu_master), "- MPU6050")
             self.calibrateMPU6050()
-            print("")
 
         except OSError as err:
 
@@ -602,7 +601,6 @@ class MPU9250:
         # get stable time source; Auto select clock source to be PLL gyroscope reference if ready, else use the internal oscillator, bits 2:0 = 001
         self.writeMaster(PWR_MGMT_1, 0x01)
         self.writeMaster(PWR_MGMT_2, 0x00, 0.2)
-        # self.writeMaster(PWR_MGMT_1, 0x00, 0.2)
 
         # Configure device for bias calculation
         self.writeMaster(INT_ENABLE, 0x00) # Disable all interrupts
@@ -695,7 +693,6 @@ class MPU9250:
             # get stable time source; Auto select clock source to be PLL gyroscope reference if ready, else use the internal oscillator, bits 2:0 = 001
             self.writeSlave(PWR_MGMT_1, 0x01)
             self.writeSlave(PWR_MGMT_2, 0x00, 0.2)
-            # self.writeSlave(PWR_MGMT_1, 0x00, 0.2)
 
             # Configure device for bias calculation
             self.writeSlave(INT_ENABLE, 0x00) # Disable all interrupts
