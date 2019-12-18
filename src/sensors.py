@@ -1,6 +1,6 @@
 import time
-from .sampling import Sampling
-from .registers import *
+from sampling import Sampling
+from registers import *
 
 # Class that handles the entire sensor network.
 class Sensors:

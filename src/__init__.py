@@ -59,7 +59,7 @@ def __init__():
             sensors.showCurrent()
 
         else:
-            print("Opção inválida.")
+            print("Invalid Choice.")
 
 if __name__ == "__main__":
 

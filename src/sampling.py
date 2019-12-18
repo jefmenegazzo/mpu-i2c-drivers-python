@@ -4,7 +4,7 @@ import os
 import sys
 import time
 from threading import Thread
-from .mpu_9250 import MPU9250
+from mpu_9250 import MPU9250
 
 class Sampling(Thread):
 

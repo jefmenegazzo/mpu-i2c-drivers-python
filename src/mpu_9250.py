@@ -9,7 +9,7 @@ https://github.com/kriswiner/MPU9250/blob/master/MPU9250_MS5637_AHRS_t3.ino
 """
 
 import smbus, time
-from .registers import *
+from registers import *
 
 class MPU9250:
 
@@ -471,7 +471,8 @@ class MPU9250:
         try:
             
             dataMPU = self.readMaster(FIRST_DATA_POSITION, 28)
-            
+            dataAK = self.readMagnetometerMaster()
+           
             accMaster = self.convertAccelerometer(dataMPU[0:6], self.abias)
             tempMaster = self.convertTemperature(dataMPU[6:8])
             gyroMaster = self.convertGyroscope(dataMPU[8:14], self.gbias)
@@ -480,10 +481,8 @@ class MPU9250:
                 accSlave = self.convertAccelerometer(dataMPU[14:20], self.abias_slave)
                 tempSlave = self.convertTemperature(dataMPU[20:22])
                 gyroSlave = self.convertGyroscope(dataMPU[22:28], self.gbias_slave)
-                dataAK = self.convertMagnetometer(dataMPU[28:35])
-    
-            else:
-                dataAK = self.readMagnetometerMaster()
+
+            else:               
                 accSlave = self.getDataError()
                 tempSlave = 0
                 gyroSlave = self.getDataError()
@@ -575,8 +574,11 @@ class MPU9250:
     def calibrate(self, retry=3):
 
         try:
+            print("Calibrating AK8963")
             self.calibrateAK8963()
+            print("Calibrating MPU6050")
             self.calibrateMPU6050()
+            print("")
 
         except OSError as err:
 
@@ -600,6 +602,7 @@ class MPU9250:
         # get stable time source; Auto select clock source to be PLL gyroscope reference if ready, else use the internal oscillator, bits 2:0 = 001
         self.writeMaster(PWR_MGMT_1, 0x01)
         self.writeMaster(PWR_MGMT_2, 0x00, 0.2)
+        # self.writeMaster(PWR_MGMT_1, 0x00, 0.2)
 
         # Configure device for bias calculation
         self.writeMaster(INT_ENABLE, 0x00) # Disable all interrupts
@@ -692,6 +695,7 @@ class MPU9250:
             # get stable time source; Auto select clock source to be PLL gyroscope reference if ready, else use the internal oscillator, bits 2:0 = 001
             self.writeSlave(PWR_MGMT_1, 0x01)
             self.writeSlave(PWR_MGMT_2, 0x00, 0.2)
+            # self.writeSlave(PWR_MGMT_1, 0x00, 0.2)
 
             # Configure device for bias calculation
             self.writeSlave(INT_ENABLE, 0x00) # Disable all interrupts
