@@ -4,7 +4,7 @@ import os
 import sys
 import time
 from threading import Thread
-from mpu_9250 import MPU9250
+from .mpu_9250 import MPU9250
 
 class Sampling(Thread):
 
@@ -12,7 +12,7 @@ class Sampling(Thread):
     folder = "../../data"
     file = None
     running = False
-    sleepStartSeconds = 5
+    sleepStart = 5 # In seconds
     # sampling_rate = 0.01 # 100 Hz
 
     def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode):
@@ -30,6 +30,9 @@ class Sampling(Thread):
 
     def getAllData(self):
         return self.mpu.getAllData()
+
+    def getAllDataLabels(self):
+        return self.mpu.getAllDataLabels()
 
     def startSampling(self, timeSync):
 
@@ -53,18 +56,18 @@ class Sampling(Thread):
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
             # Writing Labels
-            row = self.getLabels()
+            row = self.getAllDataLabels()
             spamwriter.writerow(row)
 
             # Start threads at same time
-            sleepTime = self.sleepStartSeconds + (self.timeSync - int(self.timeSync))
+            sleepTime = self.sleepStart + (self.timeSync - int(self.timeSync))
             time.sleep(sleepTime)
 
             # lastTime = time.time()
 
             while self.running:
 
-                row = self.mpu.getAllData()
+                row = self.getAllData()
                 spamwriter.writerow(row)
                 
                 # sleepTime = self.sampling_rate - (row[0] - lastTime)
@@ -74,23 +77,4 @@ class Sampling(Thread):
 
                 # lastTime = row[0]
 
-    def getLabels(self):
     
-        return [
-            "timestamp", 
-            "master_acc_x", 
-            "master_acc_y", 
-            "master_acc_z", 
-            "master_gyro_x", 
-            "master_gyro_y", 
-            "master_gyro_z", 
-            "slave_acc_x", 
-            "slave_acc_y", 
-            "slave_acc_z", 
-            "slave_gyro_x", 
-            "slave_gyro_y", 
-            "slave_gyro_z", 
-            "mag_x",
-            "mag_y",
-            "mag_z"
-        ]
