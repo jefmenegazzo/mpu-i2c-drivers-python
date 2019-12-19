@@ -1,9 +1,6 @@
 import sys
 sys.path.append("..")
 
-import sys
-sys.path.append("..")
-
 import time
 from registers import *
 from mpu_9250 import MPU9250
