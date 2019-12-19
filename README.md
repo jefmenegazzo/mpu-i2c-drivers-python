@@ -34,19 +34,7 @@ import time
 from registers import *
 from mpu_9250 import MPU9250
 
-mpu_0x68 = MPU9250(
-    address_ak=AK8963_ADDRESS, 
-    address_mpu_master=MPU9050_ADDRESS_68, # In 0x68 Address
-    address_mpu_slave=None, 
-    bus=1, 
-    gfs=GFS_1000, 
-    afs=AFS_8G, 
-    mfs=AK8963_BIT_16, 
-    mode=AK8963_MODE_C100HZ)
-
-mpu_0x68.configure() # Apply the settings to the registers.
-
-mpu_0x69 = MPU9250(
+mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
     address_mpu_master=MPU9050_ADDRESS_69, # In 0x69 Address
     address_mpu_slave=None, 
@@ -56,23 +44,18 @@ mpu_0x69 = MPU9250(
     mfs=AK8963_BIT_16, 
     mode=AK8963_MODE_C100HZ)
 
-mpu_0x69.configure() # Apply the settings to the registers.
+mpu.configure() # Apply the settings to the registers.
 
 while True:
-   
-    print("MPU9250 in 0x68 address")
-    print(mpu_0x68.readAccelerometerMaster())
-    print(mpu_0x68.readGyroscopeMaster())
-    print(mpu_0x68.readMagnetometerMaster())
-    print(mpu_0x68.readTemperatureMaster())
 
-    print("MPU9250 in 0x69 address")
-    print(mpu_0x69.readAccelerometerMaster())
-    print(mpu_0x69.readGyroscopeMaster())
-    print(mpu_0x69.readMagnetometerMaster())
-    print(mpu_0x69.readTemperatureMaster())
+    print("|.....MPU9250 in 0x69 Address.....|")
+    print("Accelerometer", mpu.readAccelerometerMaster())
+    print("Gyroscope", mpu.readGyroscopeMaster())
+    print("Magnetometer", mpu.readMagnetometerMaster())
+    print("Temperature", mpu.readTemperatureMaster())
+    print("\n")
 
-    time.sleep(1000)
+    time.sleep(1)
 ```
 
 ### Master-Slave Mode
@@ -96,7 +79,7 @@ import time
 from registers import *
 from mpu_9250 import MPU9250
 
-mpu_0x68 = MPU9250(
+mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
     address_mpu_master=MPU9050_ADDRESS_68, # Master has 0x68 Address
     address_mpu_slave=MPU9050_ADDRESS_68, # Slave has 0x68 Address
@@ -106,40 +89,24 @@ mpu_0x68 = MPU9250(
     mfs=AK8963_BIT_16, 
     mode=AK8963_MODE_C100HZ)
 
-mpu_0x68.configure() # Apply the settings to the registers.
-
-mpu_0x69 = MPU9250(
-    address_ak=AK8963_ADDRESS, 
-    address_mpu_master=MPU9050_ADDRESS_69, # Master has 0x69 Address
-    address_mpu_slave=None, # This MPU-9250 don't have a slave
-    bus=1, 
-    gfs=GFS_1000, 
-    afs=AFS_8G, 
-    mfs=AK8963_BIT_16, 
-    mode=AK8963_MODE_C100HZ)
-
-mpu_0x69.configure() # Apply the settings to the registers.
+mpu.configure() # Apply the settings to the registers.
 
 while True:
    
-    print("MPU9250 in 0x68 I2C Bus - Master")
-    print(mpu_0x68.readAccelerometerMaster())
-    print(mpu_0x68.readGyroscopeMaster())
-    print(mpu_0x68.readMagnetometerMaster())
-    print(mpu_0x68.readTemperatureMaster())
+    print("|.....MPU9250 in 0x68 I2C Bus - Master.....|")
+    print("Accelerometer", mpu.readAccelerometerMaster())
+    print("Gyroscope", mpu.readGyroscopeMaster())
+    print("Magnetometer", mpu.readMagnetometerMaster())
+    print("Temperature", mpu.readTemperatureMaster())
+    print("\n")
 
-    print("MPU9250 in 0x68 I2C Bus - Slave in 0x68 auxiliary sensor address")
-    print(mpu_0x68.readAccelerometerSlave())
-    print(mpu_0x68.readGyroscopeSlave())
-    print(mpu_0x68.readTemperatureSlave())
+    print("|.....MPU9250 in 0x68 I2C Bus - Slave in 0x68 auxiliary sensor address.....|")
+    print("Accelerometer", mpu.readAccelerometerSlave())
+    print("Gyroscope", mpu.readGyroscopeSlave())
+    print("Temperature", mpu.readTemperatureSlave())
+    print("\n")
 
-    print("MPU9250 in 0x69 address - Only Master")
-    print(mpu_0x69.readAccelerometerMaster())
-    print(mpu_0x69.readGyroscopeMaster())
-    print(mpu_0x69.readMagnetometerMaster())
-    print(mpu_0x69.readTemperatureMaster())
-
-    time.sleep(1000)
+    time.sleep(1)
 ```
 
 ## Getting Data
@@ -216,7 +183,7 @@ This library has functions ready for calibration accelerometer, gyroscope and ma
 
 ### Accelerometer and Gyroscope
 
-To calibrate the accelerometer and gyroscope sensors, make sure that the sensors remain fixed and stationary. Align the accelerometer's Z axis with gravity, i.e., gravity should only appear on the sensor's Z axis (place the sensor in a flat place). To perform calibration run the command:
+To calibrate the accelerometer and gyroscope sensors, make sure that the sensors remain fixed and stationary. Align the accelerometer's Z axis with gravity, i.e., gravity (1g) should only appear on the sensor's Z axis (place the sensor in a flat place). To perform calibration run the command:
 
 ```python
     mpu.calibrateMPU6050() # Calibrate sensors
@@ -267,7 +234,7 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 
 ## Final Notes
 
-The **mpu_9250.py** and **registers.py** files consist of the high level library. The **__init__.py**, **sampling.py** and **sensors.py** files contain execution examples.
+The **mpu_9250.py** and **registers.py** files consist of the high level library. The folder **example**, and **__init__.py**, **sampling.py** and **sensors.py** files contain execution examples.
 
 ## License
 
