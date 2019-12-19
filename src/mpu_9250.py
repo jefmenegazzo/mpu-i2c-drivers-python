@@ -8,7 +8,10 @@ https://github.com/kriswiner/MPU6050/wiki/Simple-and-Effective-Magnetometer-Cali
 https://github.com/kriswiner/MPU9250/blob/master/MPU9250_MS5637_AHRS_t3.ino
 """
 
-import smbus, time
+# smbus2 is faster than smbus
+# import smbus
+import smbus2 as smbus
+import time
 from registers import *
 
 class MPU9250:
