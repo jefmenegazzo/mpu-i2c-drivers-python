@@ -1,3 +1,9 @@
+#####################################################################
+# Author: Jeferson Menegazzo                                        #
+# Year: 2019                                                        #
+# License: MIT                                                      #
+#####################################################################
+
 from sensors import Sensors
 
 # Simple comand-line interface

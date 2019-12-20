@@ -1,3 +1,9 @@
+#####################################################################
+# Author: Jeferson Menegazzo                                        #
+# Year: 2019                                                        #
+# License: MIT                                                      #
+#####################################################################
+
 import time
 from sampling import Sampling
 from registers import *
