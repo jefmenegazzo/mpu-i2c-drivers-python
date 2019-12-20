@@ -1,3 +1,9 @@
+#####################################################################
+# Author: Jeferson Menegazzo                                        #
+# Year: 2019                                                        #
+# License: MIT                                                      #
+#####################################################################
+
 """
 Based on:
 https://github.com/nickcoutsos/MPU-6050-Python/blob/master/MPU6050.py

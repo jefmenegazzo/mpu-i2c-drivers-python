@@ -238,4 +238,4 @@ The **mpu_9250.py** and **registers.py** files consist of the high level library
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.txt) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
