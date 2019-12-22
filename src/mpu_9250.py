@@ -884,6 +884,95 @@ class MPU9250:
             avg_rad / mag_scale[2]
         ]
 
+    def getAllSettings(self):
+        
+        return [
+            time.time(),
+
+            None if self.address_mpu_master is None else str(hex(self.address_mpu_master)),
+            None if self.address_mpu_slave is None else str(hex(self.address_mpu_slave)),
+            None if self.address_ak is None else str(hex(self.address_ak)),
+
+            self.getGyroscoleFullScale(),
+            self.getAccelerometerFullScale(),
+            self.getMagnetometerFullScale(),
+
+            self.gres,
+            self.ares,
+            self.mres,
+
+            self.gbias,
+            self.gbias_slave,
+            self.abias,
+            self.abias_slave,
+
+            self.magCalibration,
+            self.magScale,
+            self.mbias
+        ]
+
+    def getAllSettingsLabels(self):
+        
+        return [
+            "timestamp",
+
+            "address_mpu_master", 
+            "address_mpu_slave", 
+            "address_ak", 
+
+            "gyroscope_full_scale",
+            "accelerometer_full_scale",
+            "magnetometer_full_scale",
+
+            "gyroscope_resolution",
+            "accelerometer_resolution",
+            "magnetometer_resolution",
+
+            "gyroscope_master_bias",
+            "gyroscope_slave_bias",
+            "accelerometer_master_bias",
+            "accelerometer_slave_bias",
+
+            "magnetometer_factory_sensitivity",
+            "magnetometer_soft_iron_distortion",
+            "magnetometer_hard_iron_distortion"
+        ]
+
+    def getGyroscoleFullScale(self):
+
+        if self.gfs == GFS_250:
+            return "GFS_250"
+        elif self.gfs == GFS_500:
+            return "GFS_500"
+        elif self.gfs == GFS_1000:
+            return "GFS_1000"
+        elif self.gfs == GFS_2000:
+            return "GFS_2000"
+        else:
+            return None
+
+    def getAccelerometerFullScale(self):
+
+        if self.afs == AFS_2G:
+            return "AFS_2G"
+        elif self.afs == AFS_4G:
+            return "AFS_4G"
+        elif self.afs == AFS_8G:
+            return "AFS_8G"
+        elif self.afs == AFS_16G:
+            return "AFS_16G"
+        else:
+            return None
+
+    def getMagnetometerFullScale(self):
+
+        if self.mfs == AK8963_BIT_14:
+            return "AK8963_BIT_14"
+        elif self.mfs == AK8963_BIT_16:
+            return "AK8963_BIT_16"
+        else:
+            return None
+
     ################################################################## Master Methods ##################################################################
 
     def writeAK(self, register, value, sleep = 0):

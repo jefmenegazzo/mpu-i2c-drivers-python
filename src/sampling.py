@@ -42,11 +42,18 @@ class Sampling(Thread):
 
     def startSampling(self, timeSync):
 
-        self.file = self.folder + "/mpu-data-set-" + str(hex(self.mpu.address_mpu_master)) + " " + datetime.datetime.fromtimestamp(timeSync).strftime('%d-%m-%Y %H-%M-%S') + ".csv"
-
         if not os.path.exists(self.folder):
             os.makedirs(self.folder)
 
+        fileSuffix = str(hex(self.mpu.address_mpu_master)) + " " + datetime.datetime.fromtimestamp(timeSync).strftime('%d-%m-%Y %H-%M-%S') + ".csv"
+        self.file = self.folder + "/data-set-mpu-" + fileSuffix
+        settings = self.folder + "/settings-mpu-" + fileSuffix
+        
+        with open(settings, "w+") as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=';')
+            spamwriter.writerow(self.mpu.getAllSettingsLabels())
+            spamwriter.writerow(self.mpu.getAllSettings())
+        
         self.timeSync = timeSync
         self.running = True
         self.start()
@@ -59,7 +66,7 @@ class Sampling(Thread):
 
         with open(self.file, "w+") as csvfile:
             
-            spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            spamwriter = csv.writer(csvfile, delimiter=';')
 
             # Writing Labels
             row = self.getAllDataLabels()
@@ -82,5 +89,3 @@ class Sampling(Thread):
                 #     time.sleep(sleepTime)
 
                 # lastTime = row[0]
-
-    
