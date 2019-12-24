@@ -11,6 +11,8 @@ align="center"
 />
 <br />
 
+The hardware documentation for MPU-9250 can be found in folder [docs](docs).
+
 ## How To Use
 
 With I2C Bus, you can use the MPU-9250 in two ways: simple mode or master-slave mode.
@@ -170,6 +172,15 @@ If you want to read data from all sensors (master and slave) at the same time, u
 ```python
     labels = mpu.getAllDataLabels() # return labels with data description for each array position
     data = mpu.getAllData() # returns a array with data from all sensors
+```
+
+### Reading All Settings
+
+If you want to read settings (biases, resolutions, scale factors) from all sensors (master and slave) at the same time, use the commands below (useful for saving to csv):
+
+```python
+    labels = mpu.getAllSettingsLabels() # return labels with settings description for each array position
+    data = mpu.getAllSettings() # returns a array with settings from all sensors
 ```
 
 ## Calibrating Sensors

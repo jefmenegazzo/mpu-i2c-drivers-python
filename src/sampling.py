@@ -19,7 +19,7 @@ class Sampling(Thread):
     file = None
     running = False
     sleepStart = 5 # In seconds
-    # sampling_rate = 0.01 # 100 Hz
+    sampling_rate = 0.01 # 100 Hz
 
     def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode):
         Thread.__init__(self)
@@ -40,6 +40,12 @@ class Sampling(Thread):
     def getAllDataLabels(self):
         return self.mpu.getAllDataLabels()
 
+    def getAllSettings(self):
+        return self.mpu.getAllSettings()
+
+    def getAllSettingsLabels(self):
+        return self.mpu.getAllSettingsLabels()
+
     def startSampling(self, timeSync):
 
         if not os.path.exists(self.folder):
@@ -51,8 +57,8 @@ class Sampling(Thread):
         
         with open(settings, "w+") as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=';')
-            spamwriter.writerow(self.mpu.getAllSettingsLabels())
-            spamwriter.writerow(self.mpu.getAllSettings())
+            spamwriter.writerow(self.getAllSettingsLabels())
+            spamwriter.writerow(self.getAllSettings())
         
         self.timeSync = timeSync
         self.running = True
@@ -76,16 +82,26 @@ class Sampling(Thread):
             sleepTime = self.sleepStart + (self.timeSync - int(self.timeSync))
             time.sleep(sleepTime)
 
-            # lastTime = time.time()
+            self.runWithoutSamplingRate()
 
-            while self.running:
+    def runWithoutSamplingRate(self, spamwriter):
 
-                row = self.getAllData()
-                spamwriter.writerow(row)
-                
-                # sleepTime = self.sampling_rate - (row[0] - lastTime)
-                
-                # if(sleepTime > 0):
-                #     time.sleep(sleepTime)
+        while self.running:
+            row = self.getAllData()
+            spamwriter.writerow(row)
 
-                # lastTime = row[0]
+    def runWithSamplingRate(self, spamwriter):
+        
+        lastTime = time.time()
+
+        while self.running:
+
+            row = self.getAllData()
+            spamwriter.writerow(row)
+            
+            sleepTime = self.sampling_rate - (row[0] - lastTime)
+            
+            if(sleepTime > 0):
+                time.sleep(sleepTime)
+
+            lastTime = row[0]
