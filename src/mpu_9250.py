@@ -902,16 +902,9 @@ class MPU9250:
 
             self.gres,
             self.ares,
-            self.mres,
-        ] 
-        + self.gbias 
-        + self.gbias_slave
-        + self.abias
-        + self.abias_slave
-        + self.magCalibration
-        + self.magScale
-        + self.mbias
-
+            self.mres
+        ] + self.gbias + self.gbias_slave + self.abias + self.abias_slave + self.magCalibration + self.magScale + self.mbias
+        
         return data
 
     # Get array with labels for settings obtained from getAllSettings.

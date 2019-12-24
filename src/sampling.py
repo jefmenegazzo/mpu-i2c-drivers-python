@@ -19,7 +19,7 @@ class Sampling(Thread):
     file = None
     running = False
     sleepStart = 5 # In seconds
-    sampling_rate = 0.01 # 100 Hz
+    # sampling_rate = 0.01 # 100 Hz
 
     def __init__(self, address_ak, address_mpu_master, address_mpu_slave, bus, gfs, afs, mfs, mode):
         Thread.__init__(self)
@@ -82,26 +82,16 @@ class Sampling(Thread):
             sleepTime = self.sleepStart + (self.timeSync - int(self.timeSync))
             time.sleep(sleepTime)
 
-            self.runWithoutSamplingRate()
+            # lastTime = time.time()
 
-    def runWithoutSamplingRate(self, spamwriter):
+            while self.running:
 
-        while self.running:
-            row = self.getAllData()
-            spamwriter.writerow(row)
+                row = self.getAllData()
+                spamwriter.writerow(row)
+                
+                # sleepTime = self.sampling_rate - (row[0] - lastTime)
+                
+                # if(sleepTime > 0):
+                #     time.sleep(sleepTime)
 
-    def runWithSamplingRate(self, spamwriter):
-        
-        lastTime = time.time()
-
-        while self.running:
-
-            row = self.getAllData()
-            spamwriter.writerow(row)
-            
-            sleepTime = self.sampling_rate - (row[0] - lastTime)
-            
-            if(sleepTime > 0):
-                time.sleep(sleepTime)
-
-            lastTime = row[0]
+                # lastTime = row[0]
