@@ -884,6 +884,129 @@ class MPU9250:
             avg_rad / mag_scale[2]
         ]
 
+    # Get array with settings from all sensors obtained at same time.
+    #  @param [in] self - The object pointer.
+    #  @retval [[timestamp], [addresses], [fullScale], [resolution], [gbias], [gbias_slave], [abias], [abias_slave], [magCalibration], [magScale], [mbias] ] - all sensors settings.   
+    def getAllSettings(self):
+        
+        data = [
+            time.time(),
+
+            None if self.address_mpu_master is None else str(hex(self.address_mpu_master)),
+            None if self.address_mpu_slave is None else str(hex(self.address_mpu_slave)),
+            None if self.address_ak is None else str(hex(self.address_ak)),
+
+            self.getGyroscoleFullScaleLabel(),
+            self.getAccelerometerFullScaleLabel(),
+            self.getMagnetometerFullScaleLabel(),
+
+            self.gres,
+            self.ares,
+            self.mres,
+        ] 
+        + self.gbias 
+        + self.gbias_slave
+        + self.abias
+        + self.abias_slave
+        + self.magCalibration
+        + self.magScale
+        + self.mbias
+
+        return data
+
+    # Get array with labels for settings obtained from getAllSettings.
+    #  @param [in] self - The object pointer.
+    #  @retval labels.
+    def getAllSettingsLabels(self):
+        
+        return [
+            "timestamp",
+
+            "address_mpu_master", 
+            "address_mpu_slave", 
+            "address_ak", 
+
+            "gyroscope_full_scale",
+            "accelerometer_full_scale",
+            "magnetometer_full_scale",
+
+            "gyroscope_resolution",
+            "accelerometer_resolution",
+            "magnetometer_resolution",
+
+            "gyroscope_master_bias_x",
+            "gyroscope_master_bias_y",
+            "gyroscope_master_bias_z",
+
+            "gyroscope_slave_bias_x",
+            "gyroscope_slave_bias_y",
+            "gyroscope_slave_bias_z",
+
+            "accelerometer_master_bias_x",
+            "accelerometer_master_bias_y",
+            "accelerometer_master_bias_z",
+
+            "accelerometer_slave_bias_x",
+            "accelerometer_slave_bias_y",
+            "accelerometer_slave_bias_z",
+
+            "magnetometer_factory_sensitivity_x",
+            "magnetometer_factory_sensitivity_y",
+            "magnetometer_factory_sensitivity_z",
+
+            "magnetometer_soft_iron_distortion_x",
+            "magnetometer_soft_iron_distortion_y",
+            "magnetometer_soft_iron_distortion_z",
+
+            "magnetometer_hard_iron_distortion_x",
+            "magnetometer_hard_iron_distortion_y",
+            "magnetometer_hard_iron_distortion_z"
+        ]
+
+    # Get label for gyroscope full scale value.
+    #  @param [in] self - The object pointer.
+    #  @retval label.
+    def getGyroscoleFullScaleLabel(self):
+
+        if self.gfs == GFS_250:
+            return "GFS_250"
+        elif self.gfs == GFS_500:
+            return "GFS_500"
+        elif self.gfs == GFS_1000:
+            return "GFS_1000"
+        elif self.gfs == GFS_2000:
+            return "GFS_2000"
+        else:
+            return None
+
+    # Get label for accelerometer full scale value.
+    #  @param [in] self - The object pointer.
+    #  @retval label.
+    def getAccelerometerFullScaleLabel(self):
+
+        if self.afs == AFS_2G:
+            return "AFS_2G"
+        elif self.afs == AFS_4G:
+            return "AFS_4G"
+        elif self.afs == AFS_8G:
+            return "AFS_8G"
+        elif self.afs == AFS_16G:
+            return "AFS_16G"
+        else:
+            return None
+
+    # Get label for magnetometer full scale value.
+    #  @param [in] self - The object pointer.
+    #  @retval label.
+    def getMagnetometerFullScaleLabel(self):
+
+        if self.mfs == AK8963_BIT_14:
+            return "AK8963_BIT_14"
+        elif self.mfs == AK8963_BIT_16:
+            return "AK8963_BIT_16"
+        else:
+            return None
+
     ################################################################## Master Methods ##################################################################
 
     def writeAK(self, register, value, sleep = 0):
