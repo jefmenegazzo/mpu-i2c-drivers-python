@@ -18,7 +18,7 @@ from mpu_9250 import MPU9250
 class Sampling(Thread):
 
     mpu = None
-    folder = "../../../data"
+    folder = "../data"
     file = None
     running = False
     sleepStart = 5 # In seconds
@@ -59,7 +59,7 @@ class Sampling(Thread):
         settings = self.folder + "/settings-mpu-" + fileSuffix
         
         with open(settings, "w+") as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=';')
+            spamwriter = csv.writer(csvfile, quotechar='|', quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(self.getAllSettingsLabels())
             spamwriter.writerow(self.getAllSettings())
         
@@ -75,7 +75,7 @@ class Sampling(Thread):
 
         with open(self.file, "w+") as csvfile:
             
-            spamwriter = csv.writer(csvfile, delimiter=';')
+            spamwriter = csv.writer(csvfile, quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
             # Writing Labels
             row = self.getAllDataLabels()

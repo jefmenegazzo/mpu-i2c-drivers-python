@@ -1,6 +1,5 @@
-# MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
+<div align="center">
 
-**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP).
 
 <br />
 <img 
@@ -9,9 +8,23 @@ alt="MPU-9250"
 height="150"
 align="center"
 />
-<br />
 
-The hardware documentation for MPU-9250 can be found in folder **docs**.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+
+</div>
+
+# MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
+
+**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP). The hardware documentation for MPU-9250 can be found in **docs** folder.
+
+## Table of Contents
+- [How To Use](##How-To-Use)
+- [Getting Data](##Getting-Data)
+- [Calibrating Sensors](##Calibrating-Sensors)
+- [Reset Registers](##Reset-Registers)
+- [Final Notes](##Final-Notes)
+- [License](##License)
 
 ## How To Use
 
