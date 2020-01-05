@@ -1,6 +1,6 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2019                                                        #
+# Year: 2020                                                        #
 # License: MIT                                                      #
 #####################################################################
 
@@ -14,11 +14,16 @@ https://github.com/kriswiner/MPU6050/wiki/Simple-and-Effective-Magnetometer-Cali
 https://github.com/kriswiner/MPU9250/blob/master/MPU9250_MS5637_AHRS_t3.ino
 """
 
-# smbus2 is faster than smbus
-# import smbus
-import smbus2 as smbus
-import time
+try:
+    # smbus2 is faster than smbus
+    # import smbus
+    import smbus2 as smbus
+except ImportError:
+    print("\n", "Using Fake SMBus", "\n", "Install requirements.", "\n")
+    from fake_smbus import FakeSmbus as smbus
+
 from registers import *
+import time
 
 class MPU9250:
 
@@ -87,7 +92,7 @@ class MPU9250:
     def configure(self, retry=3):
     
         try:
-            self.configureMPU6050(self.gfs, self.afs)
+            self.configureMPU6500(self.gfs, self.afs)
             self.configureAK8963(self.mfs, self.mode)
         
         except OSError as err:
@@ -98,11 +103,11 @@ class MPU9250:
             else:
                 raise err
 
-    # Configure MPU-6050
+    # Configure MPU-6500
     # @param [in] self - The object pointer.
     # @param [in] gfs - Gyroscope full scale select.
     # @param [in] afs - Accelerometer full scale select.
-    def configureMPU6050(self, gfs, afs):
+    def configureMPU6500(self, gfs, afs):
 
         if gfs == GFS_250:
             self.gres = GYRO_SCALE_MODIFIER_250DEG
@@ -585,8 +590,8 @@ class MPU9250:
         try:
             print("Calibrating", hex(self.address_mpu_master), "- AK8963")
             self.calibrateAK8963()
-            print("Calibrating", hex(self.address_mpu_master), "- MPU6050")
-            self.calibrateMPU6050()
+            print("Calibrating", hex(self.address_mpu_master), "- MPU6500")
+            self.calibrateMPU6500()
 
         except OSError as err:
 
@@ -596,13 +601,13 @@ class MPU9250:
             else:
                 raise err
 
-    # This function calibrate MPU6050 and load biases to params in this class.
+    # This function calibrate MPU6500 and load biases to params in this class.
     # To calibrate, you must correctly position the MPU so that gravity is all along the z axis of the accelerometer.
     # This function accumulates gyro and accelerometer data after device initialization. It calculates the average
     # of the at-rest readings and then loads the resulting offsets into accelerometer and gyro bias registers.
     # This function reset sensor registers. Configure must be called after.
     #  @param [in] self - The object pointer.
-    def calibrateMPU6050(self):
+    def calibrateMPU6500(self):
 
         # reset device
         self.reset()
@@ -619,7 +624,7 @@ class MPU9250:
         self.writeMaster(USER_CTRL, 0x00) # Disable FIFO and I2C master modes
         self.writeMaster(USER_CTRL, 0x0C, 0.015) # Reset FIFO and DMP
 
-        # Configure MPU6050 gyro and accelerometer for bias calculation
+        # Configure MPU6500 gyro and accelerometer for bias calculation
         self.writeMaster(CONFIG, 0x01) # Set low-pass filter to 188 Hz
         self.writeMaster(SMPLRT_DIV, 0x00) # Set sample rate to 1 kHz
         self.writeMaster(GYRO_CONFIG, 0x00) # Set gyro full-scale to 250 degrees per second, maximum sensitivity
@@ -711,7 +716,7 @@ class MPU9250:
             self.writeSlave(USER_CTRL, 0x00) # Disable FIFO and I2C master modes
             self.writeSlave(USER_CTRL, 0x0C, 0.015) # Reset FIFO and DMP
 
-            # Configure MPU6050 gyro and accelerometer for bias calculation
+            # Configure MPU6500 gyro and accelerometer for bias calculation
             self.writeSlave(CONFIG, 0x01) # Set low-pass filter to 188 Hz
             self.writeSlave(SMPLRT_DIV, 0x00) # Set sample rate to 1 kHz
             self.writeSlave(GYRO_CONFIG, 0x00) # Set gyro full-scale to 250 degrees per second, maximum sensitivity

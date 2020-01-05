@@ -1,11 +1,11 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2019                                                        #
+# Year: 2020                                                        #
 # License: MIT                                                      #
 #####################################################################
 
 import sys
-sys.path.append("..")
+sys.path.append("mpu9250")
 
 import time
 from registers import *
@@ -36,6 +36,9 @@ mpu.configure() # Apply the settings to the registers.
 # mpu.calibrate() # Calibrate sensors
 # mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
 
+##################################################
+# Get Calibration                                #
+##################################################
 # abias = mpu.abias # Get the master accelerometer biases
 # gbias = mpu.gbias # Get the master gyroscope biases
 # magScale = mpu.magScale # Get magnetometer soft iron distortion
@@ -48,14 +51,16 @@ mpu.configure() # Apply the settings to the registers.
 # print("Magnetometer HID", mbias)
 # print("\n")
 
-# Set
+##################################################
+# Set Calibration                                #
+##################################################
 # mpu.abias = [-0.08004239710365854, 0.458740234375, 0.2116996951219512]
 # mpu.gbias = [0.8958025676448171, 0.45292551924542684, 0.866773651867378]
 # mpu.magScale = [1.0104166666666667, 0.9797979797979799, 1.0104166666666667]
 # mpu.mbias = [2.6989010989010986, 2.7832417582417586, 2.6989010989010986]
 
 ##################################################
-# Show                                          #
+# Show Values                                    #
 ##################################################
 while True:
    
