@@ -1,6 +1,6 @@
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
 
-**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6050** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP).
+**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP).
 
 <br />
 <img 
@@ -11,11 +11,11 @@ align="center"
 />
 <br />
 
-The hardware documentation for MPU-9250 can be found in folder [docs](docs).
+The hardware documentation for MPU-9250 can be found in folder **docs**.
 
 ## How To Use
 
-With I2C Bus, you can use the MPU-9250 in two ways: simple mode or master-slave mode.
+With I2C Bus, you can use the MPU-9250 in two ways: simple mode or master-slave mode. The example source-codes are in **examples** folder.
 
 ### Simple Mode (Master Only Mode)
 
@@ -197,7 +197,7 @@ This library has functions ready for calibration accelerometer, gyroscope and ma
 To calibrate the accelerometer and gyroscope sensors, make sure that the sensors remain fixed and stationary. Align the accelerometer's Z axis with gravity, i.e., gravity (1g) should only appear on the sensor's Z axis (place the sensor in a flat place). To perform calibration run the command:
 
 ```python
-    mpu.calibrateMPU6050() # Calibrate sensors
+    mpu.calibrateMPU6500() # Calibrate sensors
     mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
 
     abias = mpu.abias # Get the master accelerometer biases
@@ -245,7 +245,7 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 
 ## Final Notes
 
-The **mpu_9250.py** and **registers.py** files consist of the high level library. The folder **example**, and **__init__.py**, **sampling.py** and **sensors.py** files contain execution examples.
+The foler **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
 
 ## License
 

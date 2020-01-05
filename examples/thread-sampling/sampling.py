@@ -1,6 +1,6 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2019                                                        #
+# Year: 2020                                                        #
 # License: MIT                                                      #
 #####################################################################
 
@@ -10,12 +10,15 @@ import os
 import sys
 import time
 from threading import Thread
+import sys
+sys.path.append("mpu9250")
+
 from mpu_9250 import MPU9250
 
 class Sampling(Thread):
 
     mpu = None
-    folder = "../../data"
+    folder = "../../../data"
     file = None
     running = False
     sleepStart = 5 # In seconds

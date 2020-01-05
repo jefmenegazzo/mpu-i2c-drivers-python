@@ -1,11 +1,11 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2019                                                        #
+# Year: 2020                                                        #
 # License: MIT                                                      #
 #####################################################################
 
 import sys
-sys.path.append("..")
+sys.path.append("mpu9250")
 
 import time
 from registers import *
@@ -36,6 +36,9 @@ mpu.configure() # Apply the settings to the registers.
 # mpu.calibrate() # Calibrate sensors
 # mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
 
+##################################################
+# Get Calibration                                #
+##################################################
 # abias = mpu.abias # Get the master accelerometer biases
 # abias_slave = mpu.abias_slave # Get the slave accelerometer biases
 # gbias = mpu.gbias # Get the master gyroscope biases
@@ -52,7 +55,9 @@ mpu.configure() # Apply the settings to the registers.
 # print("Magnetometer HID", mbias)
 # print("\n")
 
-# Set
+##################################################
+# Set Calibration                                #
+##################################################
 # mpu.abias = [0.073846435546875, 0.104925537109375, -0.007580566406250044]
 # mpu.abias_slave = [-0.05669294084821429, -0.022966657366071428, 0.34601120721726186]
 # mpu.gbias = [0.6832122802734375, -0.2918243408203125, -0.7152557373046875]
@@ -61,7 +66,7 @@ mpu.configure() # Apply the settings to the registers.
 # mpu.mbias = [8.19041514041514, 8.991651404151403, 14.696359890109889]
 
 ##################################################
-# Show                                          #
+# Show Values                                    #
 ##################################################
 while True:
    
