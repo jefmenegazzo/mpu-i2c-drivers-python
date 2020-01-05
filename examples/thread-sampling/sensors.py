@@ -1,10 +1,13 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2019                                                        #
+# Year: 2020                                                        #
 # License: MIT                                                      #
 #####################################################################
 
 import time
+import sys
+sys.path.append("mpu9250")
+
 from sampling import Sampling
 from registers import *
 
