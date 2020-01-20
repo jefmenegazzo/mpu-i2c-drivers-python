@@ -20,9 +20,9 @@ try:
     import smbus2 as smbus
 except ImportError:
     print("\n", "Using Fake SMBus", "\n", "Install requirements.", "\n")
-    from fake_smbus import FakeSmbus as smbus
+    from mpu9250_jmdev.fake_smbus import FakeSmbus as smbus
 
-from registers import *
+from mpu9250_jmdev.registers import *
 import time
 
 class MPU9250:

@@ -6,10 +6,10 @@
 
 import time
 import sys
-sys.path.append("mpu9250_jmdev")
+sys.path.append("")
 
 from sampling import Sampling
-from registers import *
+from mpu9250_jmdev.registers import *
 
 # Class that handles the entire sensor network.
 class Sensors:

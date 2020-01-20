@@ -5,11 +5,11 @@
 #####################################################################
 
 import sys
-sys.path.append("mpu9250_jmdev")
+sys.path.append("")
 
 import time
-from registers import *
-from mpu_9250 import MPU9250
+from mpu9250_jmdev.registers import *
+from mpu9250_jmdev.mpu_9250 import MPU9250
 
 ##################################################
 # Create                                         #
