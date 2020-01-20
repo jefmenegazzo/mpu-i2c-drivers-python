@@ -60,8 +60,8 @@ Below simple code to test the execution with never ending loop:
 
 ```python
 import time
-from registers import *
-from mpu_9250 import MPU9250
+from mpu9250_jmdev.registers import *
+from mpu9250_jmdev.mpu_9250 import MPU9250
 
 mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
@@ -105,8 +105,8 @@ Below simple code to test the execution with never ending loop:
 
 ```python
 import time
-from registers import *
-from mpu_9250 import MPU9250
+from mpu9250_jmdev.registers import *
+from mpu9250_jmdev.mpu_9250 import MPU9250
 
 mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
