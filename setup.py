@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="mpu9250-jmdev",
+    name="mpu9250_jmdev",
     version="1.0.7",
     author="Jeferson Menegazzo",
     author_email="jef.menegazzo@outlook.com",
