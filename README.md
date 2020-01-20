@@ -8,8 +8,9 @@ alt="MPU-9250"
 height="150"
 align="center"
 />
+<br />
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jefmenegazzo/mpu9250) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/3) [![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) ![GitHub issues](https://img.shields.io/github/issues/jefmenegazzo/mpu9250) [![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250-jmdev)](https://pypi.org/project/mpu9250-jmdev)
 
 
 </div>
@@ -19,12 +20,27 @@ align="center"
 **MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP). The hardware documentation for MPU-9250 can be found in **docs** folder.
 
 ## Table of Contents
-- [How To Use](##How-To-Use)
-- [Getting Data](##Getting-Data)
-- [Calibrating Sensors](##Calibrating-Sensors)
-- [Reset Registers](##Reset-Registers)
-- [Final Notes](##Final-Notes)
-- [License](##License)
+- [Instalation](#Instalation)
+- [How To Use](#How-To-Use)
+- [Getting Data](#Getting-Data)
+- [Calibrating Sensors](#Calibrating-Sensors)
+- [Reset Registers](#Reset-Registers)
+- [Final Notes](#Final-Notes)
+- [License](#License)
+
+## Instalation
+
+To install via pip, use:
+
+```bash
+pip install mpu9250-jmdev
+```
+
+To clone this repository, use:
+
+```bash
+git clone https://github.com/jefmenegazzo/MPU9250.git
+```
 
 ## How To Use
 

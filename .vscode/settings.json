@@ -3,6 +3,9 @@
         "**/.git": true,
         "**/__pycache__": true,
         ".gitignore": true,
+        "dist": true,
+        "build": true,
+        "mpu9250_jmdev.egg-info": true,
     },
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
 }

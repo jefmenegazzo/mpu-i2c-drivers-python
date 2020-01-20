@@ -1,2 +1,5 @@
 __pycache__
 data
+dist
+build
+mpu9250_jmdev.egg-info
