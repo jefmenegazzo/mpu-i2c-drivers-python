@@ -1,19 +1,17 @@
 <div align="center">
 
-
-<br />
 <img 
 src="https://gloimg.gbtcdn.com/soa/gb/2015/201509/goods_img_big-v1/1442961797146-P-3106869.jpg"
 alt="MPU-9250"
 height="150"
 align="center"
 />
-<br />
-
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jefmenegazzo/mpu9250) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/3) [![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) ![GitHub issues](https://img.shields.io/github/issues/jefmenegazzo/mpu9250) [![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250-jmdev)](https://pypi.org/project/mpu9250-jmdev)
-
 
 </div>
+
+<br />
+
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jefmenegazzo/mpu9250) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/3) [![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) ![GitHub issues](https://img.shields.io/github/issues/jefmenegazzo/mpu9250) [![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev)](https://pypi.org/project/mpu9250_jmdev)
 
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
 
@@ -33,7 +31,7 @@ align="center"
 To install via pip, use:
 
 ```bash
-pip install mpu9250-jmdev
+pip install mpu9250_jmdev
 ```
 
 To clone this repository, use:

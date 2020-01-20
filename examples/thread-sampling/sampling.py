@@ -11,7 +11,7 @@ import sys
 import time
 from threading import Thread
 import sys
-sys.path.append("mpu9250")
+sys.path.append("mpu9250_jmdev")
 
 from mpu_9250 import MPU9250
 

@@ -5,7 +5,7 @@
 #####################################################################
 
 import sys
-sys.path.append("mpu9250")
+sys.path.append("mpu9250_jmdev")
 
 import time
 from registers import *
