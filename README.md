@@ -28,16 +28,20 @@ align="center"
 
 ## Instalation
 
+Notice that this package requires Python 3.6 or higher.
+
 To install via pip, use:
 
 ```bash
-pip install mpu9250_jmdev
+pip3 install mpu9250-jmdev
 ```
 
-To clone this repository, use:
+To use the package for development purposes, use:
 
 ```bash
 git clone https://github.com/jefmenegazzo/MPU9250.git
+cd MPU9250
+pip3 install -e .
 ```
 
 ## How To Use
