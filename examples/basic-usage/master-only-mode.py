@@ -17,7 +17,7 @@ from mpu9250_jmdev.mpu_9250 import MPU9250
 
 mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
-    address_mpu_master=MPU9050_ADDRESS_69, # In 0x69 Address
+    address_mpu_master=MPU9050_ADDRESS_68, # In 0x68 Address
     address_mpu_slave=None, 
     bus=1, 
     gfs=GFS_1000, 
@@ -44,7 +44,7 @@ mpu.configure() # Apply the settings to the registers.
 # magScale = mpu.magScale # Get magnetometer soft iron distortion
 # mbias = mpu.mbias # Get magnetometer hard iron distortion
 
-# print("|.....MPU9250 in 0x69 Biases.....|")
+# print("|.....MPU9250 in 0x68 Biases.....|")
 # print("Accelerometer", abias)
 # print("Gyroscope", gbias)
 # print("Magnetometer SID", magScale)
@@ -64,7 +64,7 @@ mpu.configure() # Apply the settings to the registers.
 ##################################################
 while True:
    
-    print("|.....MPU9250 in 0x69 Address.....|")
+    print("|.....MPU9250 in 0x68 Address.....|")
     print("Accelerometer", mpu.readAccelerometerMaster())
     print("Gyroscope", mpu.readGyroscopeMaster())
     print("Magnetometer", mpu.readMagnetometerMaster())
