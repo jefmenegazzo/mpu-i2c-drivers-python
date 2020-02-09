@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mpu9250_jmdev",
-    version="1.0.9",
+    version="1.0.10",
     author="Jeferson Menegazzo",
     author_email="jef.menegazzo@outlook.com",
     description="MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python for Raspbery PI",
