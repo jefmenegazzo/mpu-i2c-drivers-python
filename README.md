@@ -11,11 +11,11 @@ align="center"
 
 <br />
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jefmenegazzo/mpu9250) 
+[![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect) 
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg)
-[![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) 
-![GitHub issues](https://img.shields.io/github/issues/jefmenegazzo/mpu9250) 
+![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect) 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev)](https://pypi.org/project/mpu9250_jmdev)
 
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
@@ -44,9 +44,10 @@ pip install mpu9250-jmdev
 To use the package for development purposes, use <sup>[2](#f2)</sup> :
 
 ```bash
-git clone https://github.com/jefmenegazzo/MPU9250.git
-cd MPU9250
+git clone https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect.git
+cd MPU-9250-Sensors-Data-Collect
 pip install -e .
+pip install -r requirements.txt
 ```
 
 <b id="f1">1</b>,<b id="f2">2</b>: If you have both python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead.
