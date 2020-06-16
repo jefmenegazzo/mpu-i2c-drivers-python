@@ -11,7 +11,7 @@ align="center"
 
 <br />
 
-[![GitHub](https://img.shields.io/github/license/jefmenegazzo/mpu9250)](LICENSE) 
+[![GitHub](https://img.shields.io/github/license/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)](LICENSE) 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect) 
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg)
