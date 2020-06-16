@@ -44,19 +44,19 @@ pip install mpu9250-jmdev
 To use the package for development purposes, use <sup>[2](#f2)</sup> :
 
 ```bash
-git clone https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect.git
-cd MPU-9250-Sensors-Data-Collect
+git clone https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect.git MPU9250
+cd MPU9250
 pip install -e .
 pip install -r requirements.txt
 ```
 
-<b id="f1">1</b>,<b id="f2">2</b>: If you have both python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead.
+<sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead.
 
 ## How To Use
 
 With I2C Bus, you can use the MPU-9250 in two ways: simple mode or master-slave mode. The example source-codes are in **examples** folder.
 
-### Simple Mode (Master Only Mode)
+### Simple Mode - Master Only
 
 In this mode, the MPU-9250 connects directly to Raspberry GPIOs. There are two physical addresses available for the MPU-9250, being 0x68 and 0x69. Therefore, on each I2C Bus you can have up to two MPU-9250 connected. The connection between GPIOs and MPU-9250 is as follows:
 
@@ -79,7 +79,7 @@ mpu = MPU9250(
     address_ak=AK8963_ADDRESS, 
     address_mpu_master=MPU9050_ADDRESS_68, # In 0x68 Address
     address_mpu_slave=None, 
-    bus=1, 
+    bus=1,
     gfs=GFS_1000, 
     afs=AFS_8G, 
     mfs=AK8963_BIT_16, 
@@ -99,7 +99,7 @@ while True:
     time.sleep(1)
 ```
 
-### Master-Slave Mode
+### Advanced Mode - Master-Slave
 
 If you want to have more than two MPU-9250 on one I2C Bus, you must use Master-Slave mode. In this case, first configure the MPU-9250 according to the previous section, they will be used as Master. To configure the MPU-9250 Slaves, connect as follows:
 
@@ -193,7 +193,7 @@ The magnetometer measures geomagnetic field in three axes (X, Y, Z). To read you
     masterData = mpu.readMagnetometerMaster()
 ```
 
-When used in Simple Mode (Master Only Mode), the magnetometer will be available on the I2C Bus with address 0x0C. When in Master-Slave Mode, the magnetometer will also behave as a slave, and address 0x0C will not appear on the I2C Bus, acting as an auxiliary sensor.
+When used in Simple Mode (Master Only), the magnetometer will be available on the I2C Bus with address 0x0C. When in Advanced Mode (Master-Slave), the magnetometer will also behave as a slave, and address 0x0C will not appear on the I2C Bus, acting as an auxiliary sensor.
 
 ### Reading Temperature
 
