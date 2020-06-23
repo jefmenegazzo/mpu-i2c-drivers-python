@@ -33,8 +33,6 @@ align="center"
 
 ## Instalation
 
-Notice that this package requires Python 3.6 or higher.
-
 To install via pip, use <sup>[1](#f1)</sup> :
 
 ```bash
@@ -50,7 +48,13 @@ pip install -e .
 pip install -r requirements.txt
 ```
 
-<sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead.
+> :information_source: Notice that this package requires Python 3.6 or higher.
+
+> :warning: <sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead. 
+
+> :warning: <sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you run your python source-code with ```sudo```, remember to use ```sudo``` with ```pip install``` commands as well.
+
+> :warning: If you get zero values and the message **Using Fake SMBus**, the **smbus2** requirement has not been installed correctly. Try installing manually with the command ```pip install -r requirements.txt``` or ```python -mpip install smbus2```.
 
 ## How To Use
 
