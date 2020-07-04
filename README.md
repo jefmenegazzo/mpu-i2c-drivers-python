@@ -20,7 +20,7 @@ align="center"
 
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
 
-**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP). The hardware documentation for MPU-9250 can be found in **docs** folder.
+**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP). The hardware documentation for MPU-9250 can be found at [Product Specification](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Product%20Specification%20Revision%201.1.pdf) and [Register Map and Descriptions](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Register%20Map%20and%20Descriptions%20Revision%201.6.pdf).
 
 ## Table of Contents
 - [Instalation](#Instalation)
@@ -33,13 +33,13 @@ align="center"
 
 ## Instalation
 
-To install via pip, use <sup>[1](#f1)</sup> :
+To install via pip use:
 
 ```bash
 pip install mpu9250-jmdev
 ```
 
-To use the package for development purposes, use <sup>[2](#f2)</sup> :
+To use the package for development purposes use:
 
 ```bash
 git clone https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect.git MPU9250
@@ -48,17 +48,21 @@ pip install -e .
 pip install -r requirements.txt
 ```
 
+### Known Issues
+
 > :information_source: Notice that this package requires Python 3.6 or higher.
 
-> :warning: <sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead. 
+> :warning: If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead. 
 
-> :warning: <sup><b id="f1">1</b>,<b id="f2">2</b></sup> If you run your python source-code with ```sudo```, remember to use ```sudo``` with ```pip install``` commands as well.
+> :warning: If you run your python source-code with ```sudo```, remember to use ```sudo``` with ```pip install``` commands as well.
 
 > :warning: If you get zero values and the message **Using Fake SMBus**, the **smbus2** requirement has not been installed correctly. Try installing manually with the command ```pip install -r requirements.txt``` or ```python -mpip install smbus2```.
 
+> :exclamation: Any other problem or questions, **open an issue in this repository, do not send me an e-mail!**
+
 ## How To Use
 
-With I2C Bus, you can use the MPU-9250 in two ways: simple mode or master-slave mode. The example source-codes are in **examples** folder.
+With I2C Bus, you can use the MPU-9250 in two ways: simple mode or advanced mode. The example source-codes are in **examples** folder.
 
 ### Simple Mode - Master Only
 
@@ -288,7 +292,7 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 
 ## Final Notes
 
-The foler **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
+The folder **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
 
 ## License
 
