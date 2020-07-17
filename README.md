@@ -267,7 +267,7 @@ The biases are programmatically applied to the sensor data. Therefore, when read
 To perform calibration run the command:
 
 ```python
-    mpu.configureAK8963() # Calibrate sensors
+    mpu.calibrateAK8963() # Calibrate sensors
     mpu.configure() # The calibration function resets the sensors, so you need to reconfigure them
 
     magScale = mpu.magScale # Get magnetometer soft iron distortion
