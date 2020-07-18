@@ -3,9 +3,14 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+# Remove Emojis
+long_description = long_description.replace(":information_source: ", "")
+long_description = long_description.replace(":warning: ", "")
+long_description = long_description.replace(":exclamation: ", "")
+
 setuptools.setup(
     name="mpu9250_jmdev",
-    version="1.0.11",
+    version="1.0.12",
     author="Jeferson Menegazzo",
     author_email="jef.menegazzo@outlook.com",
     description="MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python for Raspbery PI",
