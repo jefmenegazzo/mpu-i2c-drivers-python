@@ -1,22 +1,36 @@
 <div align="center">
 
+<a href="https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect">
 <img 
 src="https://gloimg.gbtcdn.com/soa/gb/2015/201509/goods_img_big-v1/1442961797146-P-3106869.jpg"
 alt="MPU-9250"
 height="150"
 align="center"
 />
+</a>
 
 </div>
 
 <br />
 
-[![GitHub](https://img.shields.io/github/license/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)](LICENSE) 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect) 
-![pypi](https://img.shields.io/pypi/v/pybadges.svg)
-![versions](https://img.shields.io/pypi/pyversions/pybadges.svg)
-![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect) 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev)](https://pypi.org/project/mpu9250_jmdev)
+<div align="center">
+
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
+[![GitHub](https://img.shields.io/github/license/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](LICENSE)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square) 
+![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
+![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
+
+[![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/watchers)
+[![GitHub contributors](https://img.shields.io/github/contributors/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/graphs/contributors/)
+[![HitCount](http://hits.dwyl.io/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/badges.svg)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev?style=flat-square&color=success)](https://pypi.org/project/mpu9250_jmdev)
+
+</div>
 
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
 
@@ -58,7 +72,7 @@ pip install -r requirements.txt
 
 > :warning: If you get zero values and the message **Using Fake SMBus**, the **smbus2** requirement has not been installed correctly. Try installing manually with the command ```pip install -r requirements.txt``` or ```python -mpip install smbus2```.
 
-> :exclamation: Any other problem or questions, **open an issue in this repository, do not send me an e-mail!**
+> :exclamation: Any other problem or questions, **open an issue in this repository [clicking here](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/issues), do not send me an e-mail!**
 
 ## How To Use
 
