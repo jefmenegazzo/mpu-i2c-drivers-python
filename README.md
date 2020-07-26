@@ -21,6 +21,7 @@ align="center"
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square) 
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.3960441-blue?style=flat-square)](https://doi.org/10.5281/zenodo.3960441)
 
 [![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/issues)
 [![GitHub forks](https://img.shields.io/github/forks/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/network/members)
@@ -43,6 +44,7 @@ align="center"
 - [Calibrating Sensors](#Calibrating-Sensors)
 - [Reset Registers](#Reset-Registers)
 - [Final Notes](#Final-Notes)
+- [How To Cite](#How-To-Cite)
 - [License](#License)
 
 ## Instalation
@@ -307,6 +309,23 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 ## Final Notes
 
 The folder **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
+
+## How To Cite
+
+To cite this repository, use the reference below:
+
+```bibtex
+@software{menegazzo3960441,
+    author = {Jeferson Menegazzo and Aldo von Wangenheim},
+    title = {{MPU-9250 Sensors Data Collect}},
+    month = jul,
+    year = 2020,
+    publisher = {Zenodo},
+    version = {1.0.12},
+    doi = {10.5281/zenodo.3960441},
+    url = {https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/}
+}
+```
 
 ## License
 
