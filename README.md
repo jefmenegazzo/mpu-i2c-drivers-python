@@ -13,8 +13,6 @@ align="center"
 
 <br />
 
-<div align="center">
-
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![GitHub](https://img.shields.io/github/license/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](LICENSE)
@@ -22,7 +20,6 @@ align="center"
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.3960441-blue?style=flat-square)](https://doi.org/10.5281/zenodo.3960441)
-
 [![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/issues)
 [![GitHub forks](https://img.shields.io/github/forks/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/network/members)
 [![GitHub stars](https://img.shields.io/github/stars/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/stargazers)
@@ -30,8 +27,6 @@ align="center"
 [![GitHub contributors](https://img.shields.io/github/contributors/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/graphs/contributors/)
 [![HitCount](http://hits.dwyl.io/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/badges.svg)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev?style=flat-square&color=success)](https://pypi.org/project/mpu9250_jmdev)
-
-</div>
 
 # MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
 
