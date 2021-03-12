@@ -15,7 +15,7 @@ align="center"
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
-[![GitHub](https://img.shields.io/github/license/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](LICENSE)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg?style=flat-square&color=success)](LICENSE.txt)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square) 
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
@@ -324,4 +324,4 @@ To cite this repository, use the reference below:
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+This project is under Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0). Please see [License File](LICENSE.txt) for more information.
