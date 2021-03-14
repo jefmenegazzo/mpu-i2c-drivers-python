@@ -9,6 +9,10 @@ align="center"
 />
 </a>
 
+<br />
+
+🙌 Use [donations](#Sponsors-and-Donations) to help support your projects! 🙌
+
 </div>
 
 <br />
@@ -16,6 +20,7 @@ align="center"
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg?style=flat-square&color=success)](LICENSE.txt)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QYV4NEUSVWZCY&source=url)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square) 
 ![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
 ![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
@@ -39,6 +44,8 @@ align="center"
 - [Calibrating Sensors](#Calibrating-Sensors)
 - [Reset Registers](#Reset-Registers)
 - [Final Notes](#Final-Notes)
+- [Sponsors and Donations](#Sponsors-and-Donations)
+- [What We're Working on Now](#What-We're-Working-on-Now)
 - [How To Cite](#How-To-Cite)
 - [License](#License)
 
@@ -304,6 +311,18 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 ## Final Notes
 
 The folder **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
+
+## Sponsors and Donations
+
+This project does not have any funding. To help maintain the project, consider making a donation 🙌.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QYV4NEUSVWZCY&source=url)
+
+## What We're Working on Now 
+
+New features are currently under development:
+- V2: new major version will be released soon, much more robust than the current one. It will supports several MPU models, such as 9250, 9150, 6050, 6500.
+- Complete support documentation for configuring RPi, I2C, VNC, SSH, etc.
 
 ## How To Cite
 
