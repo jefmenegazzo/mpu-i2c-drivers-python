@@ -1,11 +1,11 @@
 ##################################################################### 
 # Author: Jeferson Menegazzo                                        # 
-# Year: 2020                                                        # 
+# Year: 2021                                                        # 
 # License: CC BY-NC-ND 4.0                                          #
 ##################################################################### 
 
 # Class for code testing without I2C access. 
-class FakeSmbus(object): 
+class SmbusFake(object): 
     
     class SMBus(object): 
         

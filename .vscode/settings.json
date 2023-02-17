@@ -6,7 +6,6 @@
         ".gitignore": true,
         "dist": true,
         "build": true,
-        "mpu9250_jmdev.egg-info": true,
-    },
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
+        "mpu_jmdev.egg-info": true,
+    }
 }
