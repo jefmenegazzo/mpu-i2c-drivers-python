@@ -1,6 +1,23 @@
 {
-  "recommendations": [
-    "ms-python.anaconda-extension-pack",
-    "ms-python.python"
-  ]
+    "recommendations": [
+        "mikestead.dotenv",
+        "ms-toolsai.jupyter",
+        "tht13.html-preview-vscode",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "njpwerner.autodocstring",
+        "vscode-icons-team.vscode-icons",
+        "tomoki1207.pdf",
+        "sibiraj-s.vscode-scss-formatter",
+        "fabiospampinato.vscode-statusbar-debugger",
+        "donjayamanne.python-extension-pack",
+        "frhtylcn.pythonsnippets",
+        "kevinrose.vsc-python-indent",
+        "esbenp.prettier-vscode",
+        "be5invis.toml",
+        "creinbacher.xpathtester",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "atlassian.atlascode",
+        "codeavecjonathan.importmagic"
+    ]
 }

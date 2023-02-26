@@ -1,7 +1,7 @@
 #####################################################################
 # Author: Jeferson Menegazzo                                        #
-# Year: 2021                                                        #
-# License: CC BY-NC-ND 4.0                                          #
+# Year: 2023                                                       #
+# License: MIT
 #####################################################################
 
 ###########################################################
@@ -98,7 +98,7 @@ I2C_MST_STATUS = 0x36
 # INT Pin / Bypass Enable Configuration
 ## BYPASS_EN[1]:
 ### When asserted, the i2c_master interface pins(ES_CL and ES_DA) will go into ‘bypass mode’ when the i2c master interface is disabled.
-### The pins will float high due to the internal pull-up if not enabled and the i2c master interface is disabled.  
+### The pins will float high due to the internal pull-up if not enabled and the i2c master interface is disabled.
 INT_PIN_CFG = 0x37
 
 # Interrupt Enable
@@ -163,8 +163,8 @@ SIGNAL_PATH_RESET = 0x68
 MOT_DETECT_CTRL = 0x69
 
 # User Control
-## I2C_MST_EN[5]: 
-### 1 – Enable the I2C Master I/F module; pins ES_DA and ES_SCL are isolated from pins SDA/SDI and SCL/ SCLK.  
+## I2C_MST_EN[5]:
+### 1 – Enable the I2C Master I/F module; pins ES_DA and ES_SCL are isolated from pins SDA/SDI and SCL/ SCLK.
 ### 0 – Disable I2C Master I/F module; pins ES_DA and ES_SCL are logically driven by pins SDA/SDI and SCL/ SCLK.
 USER_CTRL = 0x6A
 

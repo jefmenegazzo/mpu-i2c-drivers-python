@@ -1,55 +1,145 @@
 <div align="center">
 
-<a href="https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect">
-<img 
-src="https://gloimg.gbtcdn.com/soa/gb/2015/201509/goods_img_big-v1/1442961797146-P-3106869.jpg"
-alt="MPU-9250"
-height="150"
-align="center"
-/>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers">
+    <img
+    src="https://raw.githubusercontent.com/jefmenegazzo/mpu-i2c-drivers/master/img/mpu.jpg"
+    alt="MPU"
+    height="150"
+    align="center"
+    />
 </a>
 
+<div>
 <br />
 
-🙌 Use [donations](#Sponsors-and-Donations) to help support your projects! 🙌
+<!-- 🙌 Use [sponsors and donations](#Sponsors-and-Donations) to help support this project! 🙌 -->
+
+🙌 Use <a href="#Sponsors-and-Donations">sponsors and donations</a> to help support this project! 🙌
+
+<!-- <br /> -->
+</div>
+
+<!-- [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-Yes-green.svg?style=flat-square&color=success)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square&color=success)](LICENSE.txt)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-success.svg?style=flat-square)](https://www.paypal.com/donate/?hosted_button_id=QA7BLD3X842W6)
+[![Donate](https://img.shields.io/badge/Donate-Github-success.svg?style=flat-square)](https://github.com/sponsors/jefmenegazzo)
+
+[![GitHub issues](https://img.shields.io/github/issues/jefmenegazzo/mpu-i2c-drivers?style=flat-square&color=blue)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/issues)
+[![GitHub forks](https://img.shields.io/github/forks/jefmenegazzo/mpu-i2c-drivers?style=flat-square&color=blue)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/jefmenegazzo/mpu-i2c-drivers?style=flat-square&color=blue)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/jefmenegazzo/mpu-i2c-drivers?style=flat-square&color=blue)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/watchers)
+[![GitHub contributors](https://img.shields.io/github/contributors/jefmenegazzo/mpu-i2c-drivers?style=flat-square&color=blue)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/graphs/contributors/) -->
+
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python">
+    <img src="https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python">
+    <img src="https://img.shields.io/badge/Maintained-Yes-green.svg?style=flat-square&color=success" alt="Maintenance"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/badge/License-CC%20BY%2D-ND%204.0-lightgrey.svg?style=flat-square&color=success" alt="License: CC BY-ND 4.0"/>
+</a>
+<a href="https://www.paypal.com/donate/?hosted_button_id=QA7BLD3X842W6">
+    <img src="https://img.shields.io/badge/Donate-PayPal-success.svg?style=flat-square" alt="Donate"/>
+</a>
+<a href="https://github.com/sponsors/jefmenegazzo">
+    <img src="https://img.shields.io/badge/Donate-Github-success.svg?style=flat-square" alt="Donate"/>
+</a>
+<br />
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/stargazers">
+    <img src="https://img.shields.io/github/stars/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="GitHub stars"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/network/members">
+    <img src="https://img.shields.io/github/forks/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="GitHub forks"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/issues">
+    <img src="https://img.shields.io/github/issues/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="GitHub issues"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/watchers">
+    <img src="https://img.shields.io/github/watchers/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="GitHub watchers"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/graphs/contributors/">
+    <img src="https://img.shields.io/github/contributors/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="GitHub contributors"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python/releases/">
+    <img src="https://img.shields.io/github/v/tag/jefmenegazzo/mpu-i2c-drivers-python?style=flat-square&color=blue&label=version" alt="Lib Version"/>
+</a>
+<!-- <a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python"> -->
+<a href="(https://pypi.org/project/mpu9250_jmdev">
+    <img src="https://img.shields.io/pypi/dm/mpu9250_jmdev?style=flat-square&color=blue" alt="Lib Downloads"/>
+    <!-- <img src="https://img.shields.io/pypi/dm/mpu-i2c-drivers-python?style=flat-square&color=blue" alt="Lib Downloads"/> -->
+</a>
 
 </div>
 
-<br />
+# MPU I2C Drivers
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/Project_Status-Active-green?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
-[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg?style=flat-square&color=success)](LICENSE.txt)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QYV4NEUSVWZCY&source=url)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square) 
-![pypi](https://img.shields.io/pypi/v/pybadges.svg?style=flat-square)
-![versions](https://img.shields.io/pypi/pyversions/pybadges.svg?style=flat-square)
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.3960441-blue?style=flat-square)](https://doi.org/10.5281/zenodo.3960441)
-[![GitHub issues](https://img.shields.io/github/issues/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/issues)
-[![GitHub forks](https://img.shields.io/github/forks/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/network/members)
-[![GitHub stars](https://img.shields.io/github/stars/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/watchers)
-[![GitHub contributors](https://img.shields.io/github/contributors/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect?style=flat-square&color=success)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/graphs/contributors/)
-[![HitCount](http://hits.dwyl.io/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/badges.svg)](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/mpu9250_jmdev?style=flat-square&color=success)](https://pypi.org/project/mpu9250_jmdev)
+The MPU-9250, MPU-9255, MPU-9150, MPU-6500, MPU-6555, and MPU-6050 are motion tracking devices equipped with a combination of accelerometer, gyroscope, and magnetometer sensors. They can operate in either 6-axis (MPU-6050) or 9-axis (MPU-9250, MPU-9255, MPU-9150, MPU-6500, MPU-6555) mode, providing high precision and low noise data for reliable performance. These sensors communicate via the I2C protocol.
 
-# MPU-9250 (MPU-6500 + AK8963) I2C Driver in Python
+The project [MPU I2C Drivers](https://github.com/jefmenegazzo/mpu-i2c-drivers) provides a comprehensive collection of I2C driver libraries for the MPU sensors. The libraries enable easy communication and reading of sensor data on embedded devices, such as microcontrollers. Available in various programming languages, they are highly accessible to developers on different platforms and development environments. Each library comes equipped with functions to initialize the sensors, configure sampling rates, select measurement scales, calibrate the sensors, and read the raw data of motion and orientation.
 
-**MPU-9250** is a multi-chip module (MCM) consisting of two dies integrated into a single QFN package. One die the **MPU-6500** houses the 3-Axis gyroscope, the 3-Axis accelerometer and  temperature sensor. The other die houses the **AK8963** 3-Axis magnetometer. Hence, the MPU-9250 is a 9-axis MotionTracking device that combines a 3-axis gyroscope, 3-axis accelerometer, 3-axis magnetometer and a Digital Motion Processor™ (DMP). The hardware documentation for MPU-9250 can be found at [Product Specification](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Product%20Specification%20Revision%201.1.pdf) and [Register Map and Descriptions](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Register%20Map%20and%20Descriptions%20Revision%201.6.pdf).
+To access the library documentation page in different programming language, please choose from the options provided below.
+
+<div align="center">
+
+<!-- [![Arduíno](https://img.shields.io/static/v1?label=&message=Arduino&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-arduino&logoWidth=20&logo=arduino&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-arduino)
+[![C](https://img.shields.io/static/v1?label=&message=C&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-c&logoWidth=20&logo=C&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-c)
+[![C++](https://img.shields.io/static/v1?label=&message=C%2B%2B&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-cpp&logoWidth=20&logo=cplusplus&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-cpp)
+[![C#](https://img.shields.io/static/v1?label=&message=C%23&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-csharp&logoWidth=20&logo=csharp&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-csharp)
+[![Python](https://img.shields.io/static/v1?label=&message=Python&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-python&logoWidth=20&logo=python&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-python)
+[![Java](https://img.shields.io/static/v1?label=&message=Java&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-java&logoWidth=20&logo=openjdk&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-java)
+[![Javascript](https://img.shields.io/static/v1?label=&message=Javascript&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-javascript&logoWidth=20&logo=javascript&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-javascript)
+[![Typescript](https://img.shields.io/static/v1?label=&message=Typescript&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-typescript&logoWidth=20&logo=typescript&style=flat-square&logoColor=white)](https://github.com/jefmenegazzo/mpu-i2c-drivers-typescript) -->
+
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-arduino">
+    <img src="https://img.shields.io/static/v1?label=&message=Arduino&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-arduino&logoWidth=20&logo=arduino&style=flat-square&logoColor=white" alt="Arduíno"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-c">
+    <img src="https://img.shields.io/static/v1?label=&message=C&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-c&logoWidth=20&logo=C&style=flat-square&logoColor=white" alt="C"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-cpp">
+    <img src="https://img.shields.io/static/v1?label=&message=C%2B%2B&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-cpp&logoWidth=20&logo=cplusplus&style=flat-square&logoColor=white" alt="C++"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-csharp">
+    <img src="https://img.shields.io/static/v1?label=&message=C%23&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-csharp&logoWidth=20&logo=csharp&style=flat-square&logoColor=white" alt="C#"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-python">
+    <img src="https://img.shields.io/static/v1?label=&message=Python&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-python&logoWidth=20&logo=python&style=flat-square&logoColor=white" alt="Python"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-java">
+    <img src="https://img.shields.io/static/v1?label=&message=Java&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-java&logoWidth=20&logo=openjdk&style=flat-square&logoColor=white" alt="Java"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-javascript">
+    <img src="https://img.shields.io/static/v1?label=&message=Javascript&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-javascript&logoWidth=20&logo=javascript&style=flat-square&logoColor=white" alt="Javascript"/>
+</a>
+<a href="https://github.com/jefmenegazzo/mpu-i2c-drivers-typescript">
+    <img src="https://img.shields.io/static/v1?label=&message=Typescript&color=blue&url=https://github.com/jefmenegazzo/mpu-i2c-drivers-typescript&logoWidth=20&logo=typescript&style=flat-square&logoColor=white" alt="Typescript"/>
+</a>
+
+</div>
+
+# Python Lib
+
+This documentation describes version 2 of the library. If you are looking for version 1, [click here](README_v1.md).
+
+<!-- The hardware documentation for MPU-9250 can be found at [Product Specification](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Product%20Specification%20Revision%201.1.pdf) and [Register Map and Descriptions](https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/blob/master/doc/MPU-9250%20Register%20Map%20and%20Descriptions%20Revision%201.6.pdf). -->
 
 ## Table of Contents
 - [Instalation](#Instalation)
+    - [PyPi](#PyPi)
+    - [Git](#Git)
 - [How To Use](#How-To-Use)
-- [Getting Data](#Getting-Data)
-- [Calibrating Sensors](#Calibrating-Sensors)
-- [Reset Registers](#Reset-Registers)
+    - [Configuring Sensors](#Configuring-the-Sensors)
+    - [Getting Data](#Getting-Data)
+    - [Calibrating Sensors](#Calibrating-Sensors)
+    - [Reset Registers](#Reset-Registers)
 - [Final Notes](#Final-Notes)
+- [Known Issues](#Known-Issues)
 - [Sponsors and Donations](#Sponsors-and-Donations)
-- [What We're Working on Now](#What-We're-Working-on-Now)
-- [How To Cite](#How-To-Cite)
 - [License](#License)
 
-## Instalation
+<!-- ## Instalation
 
 To install via pip use:
 
@@ -70,7 +160,7 @@ pip install -r requirements.txt
 
 > :information_source: Notice that this package requires Python 3.6 or higher.
 
-> :warning: If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead. 
+> :warning: If you have both Python 2 and 3 installed on your machine, use ```pip3``` to install and ```python3``` to run instead.
 
 > :warning: If you run your python source-code with ```sudo```, remember to use ```sudo``` with ```pip install``` commands as well.
 
@@ -102,13 +192,13 @@ from mpu9250_jmdev.registers import *
 from mpu9250_jmdev.mpu_9250 import MPU9250
 
 mpu = MPU9250(
-    address_ak=AK8963_ADDRESS, 
+    address_ak=AK8963_ADDRESS,
     address_mpu_master=MPU9050_ADDRESS_68, # In 0x68 Address
-    address_mpu_slave=None, 
+    address_mpu_slave=None,
     bus=1,
-    gfs=GFS_1000, 
-    afs=AFS_8G, 
-    mfs=AK8963_BIT_16, 
+    gfs=GFS_1000,
+    afs=AFS_8G,
+    mfs=AK8963_BIT_16,
     mode=AK8963_MODE_C100HZ)
 
 mpu.configure() # Apply the settings to the registers.
@@ -147,19 +237,19 @@ from mpu9250_jmdev.registers import *
 from mpu9250_jmdev.mpu_9250 import MPU9250
 
 mpu = MPU9250(
-    address_ak=AK8963_ADDRESS, 
+    address_ak=AK8963_ADDRESS,
     address_mpu_master=MPU9050_ADDRESS_68, # Master has 0x68 Address
     address_mpu_slave=MPU9050_ADDRESS_68, # Slave has 0x68 Address
-    bus=1, 
-    gfs=GFS_1000, 
-    afs=AFS_8G, 
-    mfs=AK8963_BIT_16, 
+    bus=1,
+    gfs=GFS_1000,
+    afs=AFS_8G,
+    mfs=AK8963_BIT_16,
     mode=AK8963_MODE_C100HZ)
 
 mpu.configure() # Apply the settings to the registers.
 
 while True:
-   
+
     print("|.....MPU9250 in 0x68 I2C Bus - Master.....|")
     print("Accelerometer", mpu.readAccelerometerMaster())
     print("Gyroscope", mpu.readGyroscopeMaster())
@@ -310,37 +400,35 @@ If you want to reset the values in all registers of all sensors in all MPU-9250,
 
 ## Final Notes
 
-The folder **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples.
+The folder **mpu9250** consist of the high level library. The folder **examples** contains files with basic execution and threaded examples. -->
 
-## Sponsors and Donations
+# Sponsors and Donations
 
-This project does not have any funding. To help maintain the project, consider making a donation 🙌.
+By providing sponsorships and donations, you can support the continuous development of these projects and help keep them active. The more sponsors I have, the more time I can devote to both existing and new projects. As a sponsor, you can suggest new features, support for other programming languages, MPU models, and your project suggestions will be given priority.
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QYV4NEUSVWZCY&source=url)
+<div align="center">
 
-## What We're Working on Now 
+<br />
 
-New features are currently under development:
-- V2: new major version will be released soon, much more robust than the current one. It will supports several MPU models, such as 9250, 9150, 6050, 6500.
-- Complete support documentation for configuring RPi, I2C, VNC, SSH, etc.
+<!-- [![Github Sponsors](https://img.shields.io/static/v1?label=Donate%20with&message=Github%20Sponsors&logo=github&style=for-the-badge&color=blue&logoColor=white)](https://github.com/sponsors/jefmenegazzo)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[![PayPal Sponsors](https://img.shields.io/static/v1?label=Donate%20with&message=Paypal&logo=paypal&style=for-the-badge&color=blue&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=QA7BLD3X842W6) -->
 
-## How To Cite
+<a href="https://github.com/sponsors/jefmenegazzo">
+    <img src="https://img.shields.io/static/v1?label=Donate%20with&message=Github%20Sponsors&logo=github&style=for-the-badge&color=blue&logoColor=white&link=https://github.com/sponsors/jefmenegazzo" alt="Github Sponsors"/>
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.paypal.com/donate/?hosted_button_id=QA7BLD3X842W6">
+    <img src="https://img.shields.io/static/v1?label=Donate%20with&message=Paypal&logo=paypal&style=for-the-badge&color=blue&logoColor=white&link=https://www.paypal.com/donate/?hosted_button_id=QA7BLD3X842W6" alt="PayPal Sponsors"/>
+</a>
 
-To cite this repository, use the reference below:
+</div>
 
-```bibtex
-@software{menegazzo3960441,
-    author = {Jeferson Menegazzo and Aldo von Wangenheim},
-    title = {{MPU-9250 Sensors Data Collect}},
-    month = jul,
-    year = 2020,
-    publisher = {Zenodo},
-    version = {1.0.12},
-    doi = {10.5281/zenodo.3960441},
-    url = {https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect/}
-}
-```
+<br />
+
+Maintenance of this project is made possible by all the following contributors and sponsors.
+
+<!-- sponsors --><!-- sponsors -->
 
 ## License
 
-This project is under Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0). Please see [License File](LICENSE.txt) for more information.
+The repository is licensed under Creative Commons Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0), which means you can share and distribute the code for both commercial and non-commercial purposes, as long as you give credit to the original author. However, the license does not allow you to make modifications to the original code, meaning that you are not permitted to create derivative works from it. Please see [License File](https://github.com/jefmenegazzo/mpu-i2c-drivers-python/blob/master/LICENSE.md) for more information.

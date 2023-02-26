@@ -1,27 +1,30 @@
-try:
-    # smbus2 is faster than smbus
-    # import smbus
-    import smbus2 as smbus
-except ImportError:
-    print("\n", "Using Fake SMBus", "\n", "Install requirements.", "\n")
-    from mpu9250_jmdev.fake_smbus import FakeSmbus as smbus
-
-from mpu9250_jmdev.registers import *
 import time
 
-class MPU9250:
+import smbus
+
+# import smbus2 as smbus
+# from mpu_i2c_drivers.smbus_fake import SmbusFake as smbus
+from mpu_i2c_drivers.registers import *
+
+
+class MPU:
+
+    has_accelerometer: bool = True
+    has_gyroscope: bool = True
+    has_magnetometer: bool = True
 
     # Address Settings
-    address_ak = None
-    address_mpu_master = None
-    address_mpu_slave = None
-    bus = None
+    address_ak: int|None = None
+    address_mpu: int|None = None
+    bus: int|None = None
+
+    # mpu_slave: MPU9250|None = None
 
     # Sensor Full Scale
     gfs = None # Gyroscope
     afs = None # Accelerometer
     mfs = None # Magnetometer
-    mode = None # Magnetometer Mode
+    m_mode = None # Magnetometer Mode
 
     # Sensor Resolution - Scale Factor
     gres = None # Gyroscope
@@ -29,7 +32,7 @@ class MPU9250:
     mres = None # Magnetometer
 
     # Factory Magnetometer Calibration and Bias
-    magCalibration = [0, 0, 0] 
+    magCalibration = [0, 0, 0]
 
     # Magnetometer Soft Iron Distortion
     magScale = [1, 1, 1]
@@ -51,34 +54,34 @@ class MPU9250:
     # @param [in] afs - Accelerometer full scale select (default:AFS_16G[16g]).
     # @param [in] mfs - Magnetometer scale select (default:AK8963_BIT_16[16bit])
     # @param [in] mode - Magnetometer mode select (default:AK8963_MODE_C100HZ[Continous 100Hz])
-    def __init__(self, 
-        address_ak=AK8963_ADDRESS, 
-        address_mpu_master=MPU9050_ADDRESS_68, 
-        address_mpu_slave=None, 
-        bus=1, 
-        gfs=GFS_2000, 
-        afs=AFS_16G, 
-        mfs=AK8963_BIT_16, 
+    def __init__(self,
+        address_ak=AK8963_ADDRESS,
+        address_mpu_master=MPU9050_ADDRESS_68,
+        address_mpu_slave=None,
+        bus=1,
+        gfs=GFS_2000,
+        afs=AFS_16G,
+        mfs=AK8963_BIT_16,
         mode=AK8963_MODE_C100HZ
     ):
         self.address_ak = address_ak
-        self.address_mpu_master = address_mpu_master
-        self.address_mpu_slave = address_mpu_slave
+        self.address_mpu = address_mpu_master
+        self.mpu_slave = address_mpu_slave
         self.bus = smbus.SMBus(bus)
         self.gfs = gfs
         self.afs = afs
         self.mfs = mfs
-        self.mode = mode
-       
+        self.m_mode = mode
+
     # Configure MPU-9250
     # @param [in] self - The object pointer.
     # @param [in] retry - number of retries.
     def configure(self, retry=3):
-    
+
         try:
             self.configureMPU6500(self.gfs, self.afs)
-            self.configureAK8963(self.mfs, self.mode)
-        
+            self.configureAK8963(self.mfs, self.m_mode)
+
         except OSError as err:
 
             if(retry > 1):
@@ -127,7 +130,7 @@ class MPU9250:
 
         # sample rate divider
         self.writeMaster(SMPLRT_DIV, 0x00)
-        # self.writeMaster(SMPLRT_DIV, 0x04)        
+        # self.writeMaster(SMPLRT_DIV, 0x04)
 
         # gyro full scale select
         self.writeMaster(GYRO_CONFIG, gfs << 3)
@@ -140,22 +143,22 @@ class MPU9250:
         # self.writeMaster(ACCEL_CONFIG_2, 0x03)
 
         if not(self.hasSlave()):
-            
+
             # BYPASS_EN enable
-            self.writeMaster(INT_PIN_CFG, 0x02, 0.1) 
+            self.writeMaster(INT_PIN_CFG, 0x02, 0.1)
 
             # Disable master
             self.writeMaster(USER_CTRL, 0x00, 0.1)
-      
+
         else:
- 
+
             # BYPASS_EN disabled
-            self.writeMaster(INT_PIN_CFG, 0x00, 0.1)          
-            # self.writeMaster(INT_PIN_CFG, 0x22, 0.1)          
+            self.writeMaster(INT_PIN_CFG, 0x00, 0.1)
+            # self.writeMaster(INT_PIN_CFG, 0x22, 0.1)
 
             # Enable Master
-            self.writeMaster(USER_CTRL, 0x20, 0.1)      
-            
+            self.writeMaster(USER_CTRL, 0x20, 0.1)
+
             # Write to MPU Slave
             self.setSlaveToWrite()
 
@@ -171,7 +174,7 @@ class MPU9250:
 
             # sample rate divider
             self.writeSlave(SMPLRT_DIV, 0x00)
-            # self.writeSlave(SMPLRT_DIV, 0x04)    
+            # self.writeSlave(SMPLRT_DIV, 0x04)
 
             # gyro full scale select
             self.writeSlave(GYRO_CONFIG, gfs << 3)
@@ -189,11 +192,11 @@ class MPU9250:
 
             # Disable master
             self.writeSlave(USER_CTRL, 0x00, 0.1)
-  
+
             # Read from MPU Slave
-            self.writeMaster(I2C_SLV0_ADDR, self.address_mpu_slave | 0x80) # 0xE8
+            self.writeMaster(I2C_SLV0_ADDR, self.mpu_slave | 0x80) # 0xE8
             self.writeMaster(I2C_SLV0_REG, ACCEL_OUT)
-            self.writeMaster(I2C_SLV0_CTRL, 0x8E) # read 14 bytes  Acc(6) + Gyro(6) + Temp(2)     
+            self.writeMaster(I2C_SLV0_CTRL, 0x8E) # read 14 bytes  Acc(6) + Gyro(6) + Temp(2)
 
     # Configure AK8963
     # @param [in] self - The object pointer.
@@ -211,7 +214,7 @@ class MPU9250:
         data = []
 
         if not(self.hasSlave()):
-            
+
             # set power down mode
             self.writeAK(AK8963_CNTL1, 0x00, 0.1)
 
@@ -226,11 +229,11 @@ class MPU9250:
 
             # set scale and continous mode
             self.writeAK(AK8963_CNTL1, (mfs << 4 | mode), 0.1)
-        
+
         else:
 
             # Set to write MPU Slave
-            self.setSlaveToWrite(self.address_ak) 
+            self.setSlaveToWrite(self.address_ak)
 
             # set power down mode
             self.writeSlave(AK8963_CNTL1, 0x00, 0.1)
@@ -265,19 +268,19 @@ class MPU9250:
             (data[1] - 128) / 256.0 + 1.0,
             (data[2] - 128) / 256.0 + 1.0
         ]
-        
+
     # Resets the values of the sensor registers.
     # @param [in] self - The object pointer.
     # @param [in] retry - number of retries.
     def reset(self, retry=3):
 
         try:
-            
+
             if self.hasSlave():
                 self.resetMPU9250Slave()
 
             self.resetMPU9250Master()
-        
+
         except OSError as err:
 
             if(retry > 1):
@@ -289,7 +292,7 @@ class MPU9250:
     # Reset all master registers to default.
     # @param [in] self - The object pointer.
     def resetMPU9250Master(self):
-        self.writeMaster(PWR_MGMT_1, 0x80, 0.1) 
+        self.writeMaster(PWR_MGMT_1, 0x80, 0.1)
 
     # Reset all slave registers to default.
     # @param [in] self - The object pointer.
@@ -306,19 +309,19 @@ class MPU9250:
 
             data = self.readMaster(ACCEL_OUT, 6)
             return self.convertAccelerometer(data, self.abias)
-    
+
         except OSError:
-            return self.getDataError()       
+            return self.getDataError()
 
     # Read accelerometer from slave.
     #  @param [in] self - The object pointer.
     #  @retval [x, y, z] - acceleration data.
     def readAccelerometerSlave(self):
 
-        if self.hasSlave():   
+        if self.hasSlave():
 
             try:
-                
+
                 data = self.readMaster(EXT_SENS_DATA_00, 6)
                 return self.convertAccelerometer(data, self.abias_slave)
 
@@ -327,27 +330,27 @@ class MPU9250:
 
         else:
             return self.getDataError()
-            
+
     # Convert accelerometer byte block to apply scale factor and biases.
     #  @param [in] self - The object pointer.
     #  @param [in] data - accelerometer 6-byte block.
     #  @param [in] abias - biases.
     #  @retval [x, y, z] - acceleration data.
     def convertAccelerometer(self, data, abias):
-        
+
         x = (self.dataConv(data[1], data[0]) * self.ares) - abias[0]
         y = (self.dataConv(data[3], data[2]) * self.ares) - abias[1]
         z = (self.dataConv(data[5], data[4]) * self.ares) - abias[2]
 
         return [x, y, z]
-        
+
     # Read gyroscope from master.
     #  @param [in] self - The object pointer.
     #  @retval [x, y, z] - gyroscope data.
     def readGyroscopeMaster(self):
-       
+
         try:
-            
+
             data = self.readMaster(GYRO_OUT, 6)
             return self.convertGyroscope(data, self.gbias)
 
@@ -362,7 +365,7 @@ class MPU9250:
         if self.hasSlave():
 
             try:
-                
+
                 data = self.readMaster(EXT_SENS_DATA_08, 6)
                 return self.convertGyroscope(data, self.gbias_slave)
 
@@ -376,9 +379,9 @@ class MPU9250:
     #  @param [in] self - The object pointer.
     #  @param [in] data - gyroscope 6-byte block.
     #  @param [in] gbias - biases.
-    #  @retval [x, y, z] - gyroscope data.            
+    #  @retval [x, y, z] - gyroscope data.
     def convertGyroscope(self, data, gbias):
-        
+
         x = (self.dataConv(data[1], data[0]) * self.gres) - gbias[0]
         y = (self.dataConv(data[3], data[2]) * self.gres) - gbias[1]
         z = (self.dataConv(data[5], data[4]) * self.gres) - gbias[2]
@@ -387,28 +390,28 @@ class MPU9250:
 
     # Read magnetometer from master.
     #  @param [in] self - The object pointer.
-    #  @retval [x, y, z] - magnetometer data.   
+    #  @retval [x, y, z] - magnetometer data.
     def readMagnetometerMaster(self):
 
         try:
-            
+
             data = None
 
             if self.hasSlave():
-                data = self.readMaster(EXT_SENS_DATA_14, 7)          
-                
-            else:   
+                data = self.readMaster(EXT_SENS_DATA_14, 7)
+
+            else:
                 data = self.readAK(AK8963_MAGNET_OUT, 7)
 
             return self.convertMagnetometer(data)
-            
+
         except OSError:
-            return self.getDataError()        
+            return self.getDataError()
 
     # Convert magnetometer byte block to apply scale factor, biases and coeficiente.
     #  @param [in] self - The object pointer.
     #  @param [in] data - magnetometer 7-byte block.
-    #  @retval [x, y, z] - magnetometer data.   
+    #  @retval [x, y, z] - magnetometer data.
     def convertMagnetometer(self, data):
 
         # check overflow
@@ -420,7 +423,7 @@ class MPU9250:
             y *= self.magScale[1]
             z *= self.magScale[2]
             return [x, y, z]
-        
+
         else:
             return self.getDataError()
 
@@ -430,20 +433,20 @@ class MPU9250:
     def readTemperatureMaster(self):
 
         try:
-            
+
             data = self.readMaster(TEMP_OUT, 2)
-            return self.convertTemperature(data) 
+            return self.convertTemperature(data)
 
         except OSError:
             return 0
 
     # Read temperature from slave.
     #  @param [in] self - The object pointer.
-    #  @retval temperature - temperature(degrees C).   
+    #  @retval temperature - temperature(degrees C).
     def readTemperatureSlave(self):
 
         try:
-            
+
             data = self.readMaster(EXT_SENS_DATA_06, 2)
             return self.convertTemperature(data)
 
@@ -453,7 +456,7 @@ class MPU9250:
     # Convert temperature byte block to apply to a value in measure unit degrees Centigrade (º C).
     #  @param [in] self - The object pointer.
     #  @param [in] data - temperature 2-byte block.
-    #  @retval temperature - temperature data.   
+    #  @retval temperature - temperature data.
     def convertTemperature(self, data):
         temp = self.dataConv(data[1], data[0])
         temp = (temp / 333.87 + 21.0)
@@ -461,16 +464,16 @@ class MPU9250:
 
     # Get array with data from all sensors obtained at same time.
     #  @param [in] self - The object pointer.
-    #  @retval [[timestamp], [accMaster], [gyroMaster], [accSlave], [gyroSlave], [dataAK], [tempMaster], [tempSlave] ] - all sensors data.   
-    def getAllData(self): 
+    #  @retval [[timestamp], [accMaster], [gyroMaster], [accSlave], [gyroSlave], [dataAK], [tempMaster], [tempSlave] ] - all sensors data.
+    def getAllData(self):
 
         timestamp = time.time()
-        
+
         try:
-            
+
             dataMPU = self.readMaster(FIRST_DATA_POSITION, 28)
             dataAK = self.readMagnetometerMaster()
-           
+
             accMaster = self.convertAccelerometer(dataMPU[0:6], self.abias)
             tempMaster = self.convertTemperature(dataMPU[6:8])
             gyroMaster = self.convertGyroscope(dataMPU[8:14], self.gbias)
@@ -480,35 +483,35 @@ class MPU9250:
                 tempSlave = self.convertTemperature(dataMPU[20:22])
                 gyroSlave = self.convertGyroscope(dataMPU[22:28], self.gbias_slave)
 
-            else:               
+            else:
                 accSlave = self.getDataError()
                 tempSlave = 0
                 gyroSlave = self.getDataError()
 
             return [timestamp] + accMaster + gyroMaster + accSlave + gyroSlave + dataAK + [tempMaster] + [tempSlave]
-    
+
         except OSError:
-            return [timestamp] + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError() + [0, 0]        
+            return [timestamp] + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError() + self.getDataError() + [0, 0]
 
     # Get array with labels for data obtained from getAllData.
     #  @param [in] self - The object pointer.
     #  @retval labels.
     def getAllDataLabels(self):
-    
+
         return [
-            "timestamp", 
-            "master_acc_x", 
-            "master_acc_y", 
-            "master_acc_z", 
-            "master_gyro_x", 
-            "master_gyro_y", 
-            "master_gyro_z", 
-            "slave_acc_x", 
-            "slave_acc_y", 
-            "slave_acc_z", 
-            "slave_gyro_x", 
-            "slave_gyro_y", 
-            "slave_gyro_z", 
+            "timestamp",
+            "master_acc_x",
+            "master_acc_y",
+            "master_acc_z",
+            "master_gyro_x",
+            "master_gyro_y",
+            "master_gyro_z",
+            "slave_acc_x",
+            "slave_acc_y",
+            "slave_acc_z",
+            "slave_gyro_x",
+            "slave_gyro_y",
+            "slave_gyro_z",
             "mag_x",
             "mag_y",
             "mag_z",
@@ -520,7 +523,7 @@ class MPU9250:
     #  @param [in] self - The object pointer.
     def getDataError(self):
         return [0, 0, 0]
-   
+
     # Data Convert
     # @param [in] self - The object pointer.
     # @param [in] data1 - LSB
@@ -564,7 +567,7 @@ class MPU9250:
     #  @retval true - if has slave (another MPU)
     #  @retval false - if has not slave
     def hasSlave(self):
-        return not(self.address_mpu_slave is None)
+        return not(self.mpu_slave is None)
 
     # Calibrate all sensors.
     #  @param [in] self - The object pointer.
@@ -572,9 +575,9 @@ class MPU9250:
     def calibrate(self, retry=3):
 
         try:
-            print("Calibrating", hex(self.address_mpu_master), "- AK8963")
+            print("Calibrating", hex(self.address_mpu), "- AK8963")
             self.calibrateAK8963()
-            print("Calibrating", hex(self.address_mpu_master), "- MPU6500")
+            print("Calibrating", hex(self.address_mpu), "- MPU6500")
             self.calibrateMPU6500()
 
         except OSError as err:
@@ -620,24 +623,24 @@ class MPU9250:
 
         # At end of sample accumulation, turn off FIFO sensor read
         self.writeMaster(FIFO_EN, 0x00) # Disable gyro and accelerometer sensors for FIFO
-      
+
         # read FIFO sample count
-        data = self.readMaster(FIFO_COUNTH, 2) 
+        data = self.readMaster(FIFO_COUNTH, 2)
         fifo_count = self.dataConv(data[1], data[0])
         packet_count = int(fifo_count / 12); # How many sets of full gyro and accelerometer data for averaging
 
         index = 0
-        accel_bias = [0, 0, 0] 
+        accel_bias = [0, 0, 0]
         gyro_bias = [0, 0, 0]
 
         while index < packet_count:
 
             # read data for averaging
-            data = self.readMaster(FIFO_R_W, 12) 
+            data = self.readMaster(FIFO_R_W, 12)
 
             # Form signed 16-bit integer for each sample in FIFO
             # Sum individual signed 16-bit biases to get accumulated signed 32-bit biases
-            accel_bias[0] += self.dataConv(data[1], data[0]) 
+            accel_bias[0] += self.dataConv(data[1], data[0])
             accel_bias[1] += self.dataConv(data[3], data[2])
             accel_bias[2] += self.dataConv(data[5], data[4])
             gyro_bias[0] += self.dataConv(data[7], data[6])
@@ -647,7 +650,7 @@ class MPU9250:
             index += 1
 
         # Normalize sums to get average count biases
-        accel_bias[0] /= packet_count 
+        accel_bias[0] /= packet_count
         accel_bias[1] /= packet_count
         accel_bias[2] /= packet_count
         gyro_bias[0] /= packet_count
@@ -680,11 +683,11 @@ class MPU9250:
             self.reset()
 
             # BYPASS_EN disabled
-            self.writeMaster(INT_PIN_CFG, 0x00, 0.1)          
+            self.writeMaster(INT_PIN_CFG, 0x00, 0.1)
 
             # Enable Master
             self.writeMaster(USER_CTRL, 0x20, 0.1)
-            
+
             # Address to write MPU Slave
             self.setSlaveToWrite()
 
@@ -712,7 +715,7 @@ class MPU9250:
 
             # At end of sample accumulation, turn off FIFO sensor read
             self.writeSlave(FIFO_EN, 0x00) # Disable gyro and accelerometer sensors for FIFO
-        
+
             # Slave to read
             self.setSlaveToRead()
 
@@ -731,7 +734,7 @@ class MPU9250:
             else:
 
                 index = 0
-                accel_bias = [0, 0, 0] 
+                accel_bias = [0, 0, 0]
                 gyro_bias = [0, 0, 0]
 
                 while index < packet_count:
@@ -745,7 +748,7 @@ class MPU9250:
 
                     # Form signed 16-bit integer for each sample in FIFO
                     # Sum individual signed 16-bit biases to get accumulated signed 32-bit biases
-                    accel_bias[0] += self.dataConv(data[1], data[0]) 
+                    accel_bias[0] += self.dataConv(data[1], data[0])
                     accel_bias[1] += self.dataConv(data[3], data[2])
                     accel_bias[2] += self.dataConv(data[5], data[4])
                     gyro_bias[0] += self.dataConv(data[7], data[6])
@@ -755,7 +758,7 @@ class MPU9250:
                     index += 1
 
                 # Normalize sums to get average count biases
-                accel_bias[0] /= packet_count 
+                accel_bias[0] /= packet_count
                 accel_bias[1] /= packet_count
                 accel_bias[2] /= packet_count
                 gyro_bias[0] /= packet_count
@@ -786,8 +789,8 @@ class MPU9250:
     # This function reset sensor registers. Configure must be called after.
     #  @param [in] self - The object pointer.
     def calibrateAK8963(self):
-        
-        self.configureAK8963(self.mfs, self.mode)
+
+        self.configureAK8963(self.mfs, self.m_mode)
 
         index = 0
         sample_count = 0
@@ -798,34 +801,34 @@ class MPU9250:
         mag_temp = [0, 0, 0]
 
         # shoot for ~fifteen seconds of mag data
-        if (self.mode == AK8963_MODE_C8HZ):
+        if (self.m_mode == AK8963_MODE_C8HZ):
             sample_count = 128; # at 8 Hz ODR, new mag data is available every 125 ms
-        
-        if (self.mode == AK8963_MODE_C100HZ):
+
+        if (self.m_mode == AK8963_MODE_C100HZ):
             sample_count = 1500; # at 100 Hz ODR, new mag data is available every 10 ms
 
         index = 0
-        
+
         while index < sample_count:
 
             index += 1
             data = None
 
             if self.hasSlave():
-                data = self.readMaster(EXT_SENS_DATA_14, 7) 
+                data = self.readMaster(EXT_SENS_DATA_14, 7)
 
-            else:   
+            else:
                 data = self.readAK(AK8963_MAGNET_OUT, 7)
-                    
+
             # check overflow
             if (data[6] & 0x08) != 0x08:
-                
+
                 mag_temp = [
                     self.dataConv(data[0], data[1]),
                     self.dataConv(data[2], data[3]),
                     self.dataConv(data[4], data[5])
-                ]  
-      
+                ]
+
             else:
                 mag_temp = self.getDataError()
 
@@ -835,16 +838,16 @@ class MPU9250:
 
                 if (mag_temp[indexAxes] > mag_max[indexAxes]):
                     mag_max[indexAxes] = mag_temp[indexAxes]
-    
+
                 if (mag_temp[indexAxes] < mag_min[indexAxes]):
                     mag_min[indexAxes] = mag_temp[indexAxes]
 
                 indexAxes += 1
 
-            if (self.mode == AK8963_MODE_C8HZ):
+            if (self.m_mode == AK8963_MODE_C8HZ):
                 time.sleep(0.135) # at 8 Hz ODR, new mag data is available every 125 ms
-            
-            if (self.mode == AK8963_MODE_C100HZ):
+
+            if (self.m_mode == AK8963_MODE_C100HZ):
                 time.sleep(0.012); # at 100 Hz ODR, new mag data is available every 10 ms
 
         # Get hard iron correction
@@ -875,14 +878,14 @@ class MPU9250:
 
     # Get array with settings from all sensors obtained at same time.
     #  @param [in] self - The object pointer.
-    #  @retval [[timestamp], [addresses], [fullScale], [resolution], [gbias], [gbias_slave], [abias], [abias_slave], [magCalibration], [magScale], [mbias] ] - all sensors settings.   
+    #  @retval [[timestamp], [addresses], [fullScale], [resolution], [gbias], [gbias_slave], [abias], [abias_slave], [magCalibration], [magScale], [mbias] ] - all sensors settings.
     def getAllSettings(self):
-        
+
         data = [
             time.time(),
 
-            None if self.address_mpu_master is None else str(hex(self.address_mpu_master)),
-            None if self.address_mpu_slave is None else str(hex(self.address_mpu_slave)),
+            None if self.address_mpu is None else str(hex(self.address_mpu)),
+            None if self.mpu_slave is None else str(hex(self.mpu_slave)),
             None if self.address_ak is None else str(hex(self.address_ak)),
 
             self.getGyroscoleFullScaleLabel(),
@@ -893,20 +896,20 @@ class MPU9250:
             self.ares,
             self.mres
         ] + self.gbias + self.gbias_slave + self.abias + self.abias_slave + self.magCalibration + self.magScale + self.mbias
-        
+
         return data
 
     # Get array with labels for settings obtained from getAllSettings.
     #  @param [in] self - The object pointer.
     #  @retval labels.
     def getAllSettingsLabels(self):
-        
+
         return [
             "timestamp",
 
-            "address_mpu_master", 
-            "address_mpu_slave", 
-            "address_ak", 
+            "address_mpu_master",
+            "address_mpu_slave",
+            "address_ak",
 
             "gyroscope_full_scale",
             "accelerometer_full_scale",
@@ -1002,14 +1005,14 @@ class MPU9250:
         return self.bus.read_i2c_block_data(self.address_ak, register, quantity)
 
     def writeMaster(self, register, value, sleep = 0):
-        
-        self.bus.write_byte_data(self.address_mpu_master, register, value)
+
+        self.bus.write_byte_data(self.address_mpu, register, value)
 
         if sleep > 0:
             time.sleep(sleep)
 
     def readMaster(self, register, quantity):
-        return self.bus.read_i2c_block_data(self.address_mpu_master, register, quantity)
+        return self.bus.read_i2c_block_data(self.address_mpu, register, quantity)
 
     ################################################################## Slave Methods ##################################################################
 
@@ -1017,15 +1020,15 @@ class MPU9250:
     def setSlaveToWrite(self, address=None):
 
         if address is None:
-            address = self.address_mpu_slave
+            address = self.mpu_slave
 
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_ADDR, address) 
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_ADDR, address)
 
     # Write in slave
     def writeSlave(self, register, value, sleep = 0):
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, register)
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_DO, value)
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_REG, register)
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_DO, value)
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_CTRL, 0x80)
 
         if sleep > 0:
             time.sleep(sleep)
@@ -1034,12 +1037,12 @@ class MPU9250:
     def setSlaveToRead(self, address=None):
 
         if address is None:
-            address = self.address_mpu_slave
+            address = self.mpu_slave
 
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_ADDR, address | 0x80) 
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_ADDR, address | 0x80)
 
     # Read from slave
     def readSlave(self, register):
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_REG, register)
-        self.bus.write_byte_data(self.address_mpu_master, I2C_SLV4_CTRL, 0x80)
-        return self.bus.read_byte_data(self.address_mpu_master, I2C_SLV4_DI)
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_REG, register)
+        self.bus.write_byte_data(self.address_mpu, I2C_SLV4_CTRL, 0x80)
+        return self.bus.read_byte_data(self.address_mpu, I2C_SLV4_DI)

@@ -3,25 +3,20 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-# Remove Emojis
-long_description = long_description.replace(":information_source: ", "")
-long_description = long_description.replace(":warning: ", "")
-long_description = long_description.replace(":exclamation: ", "")
-
 setuptools.setup(
-    name="mpu9250_jmdev",
+    name="mpu_i2c_drivers",
     version="2.0.0",
     author="Jeferson Menegazzo",
-    author_email="jef.menegazzo@outlook.com",
-    description="MPU 9250, 9150, 6500, 6050 I2C Driver in Python for Raspbery PI",
+    author_email="jmdev@outlook.com.br",
+    description="I2C Drivers for MPU-9250, MPU-9255, MPU-9150, MPU-6500, MPU-6555, and MPU-6050",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Intelligent-Vehicle-Perception/MPU-9250-Sensors-Data-Collect",
+    url="https://github.com/jefmenegazzo/mpu-i2c-drivers-python",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: CC BY-NC-ND 4.0 License",
+        "License :: OSI Approved :: CC BY-ND 4.0 License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3',
 )

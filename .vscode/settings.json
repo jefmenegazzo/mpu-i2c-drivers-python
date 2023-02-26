@@ -6,6 +6,9 @@
         ".gitignore": true,
         "dist": true,
         "build": true,
-        "mpu_jmdev.egg-info": true,
-    }
+        "mpu_i2c_drivers.egg-info": true,
+        ".vscode": true
+    },
+    "python.analysis.typeCheckingMode": "off",
+    "python.formatting.provider": "yapf"
 }
